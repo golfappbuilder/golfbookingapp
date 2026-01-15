@@ -41,7 +41,7 @@ function CourseDetail() {
 
     setBooking(true);
     try {
-      await bookingsApi.create(selectedTeeTime.id, players);
+      await bookingsApi.create(selectedTeeTime.id, players, selectedTeeTime);
       navigate('/bookings');
     } catch (error) {
       alert(error.response?.data?.error || 'Booking failed');
