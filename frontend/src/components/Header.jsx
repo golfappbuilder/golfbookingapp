@@ -14,13 +14,14 @@ function Header() {
     <header className="header">
       <div className="header-content">
         <Link to="/" className="logo">
-          GolfBook
+          <span className="logo-icon">⛳</span>
+          Breakfast Ball
         </Link>
         <nav className="nav">
-          <Link to="/courses">Courses</Link>
+          <Link to="/courses">Browse Courses</Link>
           {user ? (
             <>
-              <Link to="/bookings">My Bookings</Link>
+              <Link to="/bookings">My Trips</Link>
               <span className="user-name">Hi, {user.first_name}</span>
               <button onClick={handleLogout} className="btn btn-outline">
                 Logout
