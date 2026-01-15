@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String    @id @default(cuid())
+  email          String    @unique
+  password       String
+  firstName      String
+  lastName       String
+  phone          String?
+  handicap       Int?
+  membershipType String    @default("guest") // guest, member, premium
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  bookings       Booking[]
+}
+
+model Course {
+  id                 String    @id @default(cuid())
+  name               String
+  description        String
+  address            String
+  city               String
+  state              String
+  zipCode            String
+  phone              String
+  email              String
+  holes              Int       @default(18)
+  par                Int       @default(72)
+  yardage            Int       @default(6500)
+  greenFee           Float
+  cartFee            Float     @default(25)
+  openTime           String    @default("06:00")
+  closeTime          String    @default("19:00")
+  teeTimeInterval    Int       @default(10) // minutes between tee times
+  maxPlayersPerGroup Int       @default(4)
+  amenities          String    @default("[]") // JSON string array
+  imageUrl           String?
+  rating             Float     @default(4.0)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  bookings           Booking[]
+}
+
+model Booking {
+  id                    String   @id @default(cuid())
+  courseId              String
+  userId                String
+  date                  String   // YYYY-MM-DD format
+  teeTime               String   // HH:MM format
+  numberOfPlayers       Int
+  playerNames           String   @default("[]") // JSON string array
+  includeCart           Boolean  @default(false)
+  totalPrice            Float
+  status                String   @default("confirmed") // pending, confirmed, cancelled, completed, no-show
+  confirmationNumber    String   @unique
+  notes                 String?
+  emailNotificationSent Boolean  @default(false)
+  reminderSent          Boolean  @default(false)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  course Course @relation(fields: [courseId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@index([courseId])
+  @@index([userId])
+  @@index([date])
+}
