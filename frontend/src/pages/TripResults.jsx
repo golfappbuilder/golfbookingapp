@@ -107,7 +107,17 @@ function TripResults() {
   const planForMe = () => {
     // Auto-select courses based on numRounds (pick top-rated)
     const sortedCourses = [...courseOptions].sort((a, b) => (b.rating || 4.5) - (a.rating || 4.5));
-    const autoCourses = sortedCourses.slice(0, tripRequest.numRounds + (tripRequest.marathonDay ? 1 : 0));
+
+    let autoCourses;
+    if (tripRequest.marathonDay) {
+      // For 36-hole days: pick top course for the marathon day (play it twice)
+      // Then pick other courses for remaining rounds
+      const marathonCourse = sortedCourses[0];
+      const otherCourses = sortedCourses.slice(1, tripRequest.numRounds);
+      autoCourses = [marathonCourse, ...otherCourses];
+    } else {
+      autoCourses = sortedCourses.slice(0, tripRequest.numRounds);
+    }
 
     // Auto-select lodging based on preference
     let autoLodging;
@@ -159,14 +169,14 @@ function TripResults() {
       const activities = [];
 
       if (tripRequest.marathonDay && i === 0) {
-        // 36-hole day
+        // 36-hole day - play the SAME course twice (makes logistical sense)
         activities.push(
-          { type: 'golf', description: `Morning round at ${course.name}`, time: '7:00 AM', course },
-          { type: 'lunch', description: 'Quick lunch at the turn', time: '12:00 PM' },
-          { type: 'golf', description: `Afternoon round at ${courses[1]?.name || course.name}`, time: '1:30 PM', course: courses[1] || course },
+          { type: 'golf', description: `Morning 18 at ${course.name}`, time: '7:30 AM', course },
+          { type: 'lunch', description: 'Lunch at the clubhouse', time: '12:00 PM' },
+          { type: 'golf', description: `Afternoon 18 at ${course.name}`, time: '1:00 PM', course },
         );
       } else if (tripRequest.marathonDay && i === 1) {
-        // Skip - handled above
+        // Skip second course on marathon day - we're playing first course twice
         return;
       } else {
         activities.push(
