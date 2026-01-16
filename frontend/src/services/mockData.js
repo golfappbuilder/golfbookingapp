@@ -13,6 +13,7 @@ export const newEnglandCourses = [
     price_weekday: 79,
     price_weekend: 99,
     rating: 4.6,
+    website: 'https://www.belgradelakesgolf.com',
   },
   {
     id: 2,
@@ -26,6 +27,7 @@ export const newEnglandCourses = [
     price_weekday: 89,
     price_weekend: 115,
     rating: 4.7,
+    website: 'https://www.sugarloaf.com/golf',
   },
   {
     id: 3,
@@ -39,6 +41,7 @@ export const newEnglandCourses = [
     price_weekday: 89,
     price_weekend: 119,
     rating: 4.8,
+    website: 'https://www.sundayrivergolfclub.com',
   },
   {
     id: 4,
@@ -52,6 +55,7 @@ export const newEnglandCourses = [
     price_weekday: 65,
     price_weekend: 85,
     rating: 4.3,
+    website: 'https://www.boothbayharborcountryclub.com',
   },
   {
     id: 5,
@@ -65,6 +69,7 @@ export const newEnglandCourses = [
     price_weekday: 55,
     price_weekend: 70,
     rating: 4.4,
+    website: 'https://www.foxridgegolfclub.com',
   },
   {
     id: 6,
@@ -78,6 +83,7 @@ export const newEnglandCourses = [
     price_weekday: 75,
     price_weekend: 95,
     rating: 4.5,
+    website: 'https://www.kebovalleyclub.com',
   },
   {
     id: 7,
@@ -91,6 +97,7 @@ export const newEnglandCourses = [
     price_weekday: 69,
     price_weekend: 89,
     rating: 4.4,
+    website: 'https://www.ledgesgolf.com',
   },
   {
     id: 8,
