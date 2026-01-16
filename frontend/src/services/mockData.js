@@ -1109,44 +1109,77 @@ export const newEnglandCourses = [
 
 // New England Lodging Options
 export const newEnglandLodging = [
-  // Maine
-  { id: 1, name: 'Sunday River Resort', city: 'Newry', state: 'ME', type: 'Mountain Resort', price_per_night: 179, region: 'Maine', amenities: ['Golf Access', 'Pool', 'Restaurant'] },
-  { id: 2, name: 'Sugarloaf Mountain Hotel', city: 'Carrabassett Valley', state: 'ME', type: 'Ski Resort', price_per_night: 169, region: 'Maine', amenities: ['Golf Access', 'Spa', 'Restaurant'] },
-  { id: 3, name: 'Bar Harbor Inn', city: 'Bar Harbor', state: 'ME', type: 'Waterfront Inn', price_per_night: 219, region: 'Maine', amenities: ['Ocean Views', 'Restaurant', 'Pool'] },
-  { id: 4, name: 'Belgrade Lakes Lodge', city: 'Belgrade Lakes', state: 'ME', type: 'Lake Lodge', price_per_night: 159, region: 'Maine', amenities: ['Lake Access', 'Dock', 'Restaurant'] },
+  // ==================== MAINE ====================
+  // Hotels & Resorts
+  { id: 1, name: 'Sunday River Resort', city: 'Newry', state: 'ME', type: 'Resort', price_per_night: 179, region: 'Maine', sleeps: 4 },
+  { id: 2, name: 'Sugarloaf Mountain Hotel', city: 'Carrabassett Valley', state: 'ME', type: 'Resort', price_per_night: 169, region: 'Maine', sleeps: 4 },
+  { id: 3, name: 'Bar Harbor Inn', city: 'Bar Harbor', state: 'ME', type: 'Inn', price_per_night: 219, region: 'Maine', sleeps: 2 },
+  { id: 4, name: 'Belgrade Lakes Lodge', city: 'Belgrade Lakes', state: 'ME', type: 'Hotel', price_per_night: 159, region: 'Maine', sleeps: 4 },
+  // Vacation Rentals
+  { id: 101, name: 'Sunday River Ski House', city: 'Newry', state: 'ME', type: 'Vacation Rental', price_per_night: 650, region: 'Maine', sleeps: 14 },
+  { id: 102, name: 'Lakefront Lodge on Great Pond', city: 'Belgrade Lakes', state: 'ME', type: 'Vacation Rental', price_per_night: 550, region: 'Maine', sleeps: 12 },
+  { id: 103, name: 'Mountain View Retreat', city: 'Bethel', state: 'ME', type: 'Vacation Rental', price_per_night: 475, region: 'Maine', sleeps: 10 },
 
-  // Cape Cod
-  { id: 5, name: 'Ocean Edge Resort', city: 'Brewster', state: 'MA', type: 'Beach Resort', price_per_night: 249, region: 'Cape Cod', amenities: ['Beach', 'Pool', 'Golf', 'Restaurant'] },
-  { id: 6, name: 'Chatham Bars Inn', city: 'Chatham', state: 'MA', type: 'Luxury Inn', price_per_night: 399, region: 'Cape Cod', amenities: ['Beach', 'Spa', 'Fine Dining'] },
-  { id: 7, name: 'Cape Codder Resort', city: 'Hyannis', state: 'MA', type: 'Family Resort', price_per_night: 189, region: 'Cape Cod', amenities: ['Water Park', 'Restaurant', 'Spa'] },
-  { id: 8, name: 'Seadar Inn', city: 'Harwich Port', state: 'MA', type: 'Beach Inn', price_per_night: 179, region: 'Cape Cod', amenities: ['Beach Access', 'Breakfast', 'Garden'] },
-  { id: 9, name: 'Nantucket Hotel', city: 'Nantucket', state: 'MA', type: 'Island Hotel', price_per_night: 349, region: 'Cape Cod', amenities: ['Pool', 'Restaurant', 'Concierge'] },
+  // ==================== CAPE COD ====================
+  // Hotels & Resorts
+  { id: 5, name: 'Ocean Edge Resort', city: 'Brewster', state: 'MA', type: 'Resort', price_per_night: 249, region: 'Cape Cod', sleeps: 4 },
+  { id: 6, name: 'Chatham Bars Inn', city: 'Chatham', state: 'MA', type: 'Inn', price_per_night: 399, region: 'Cape Cod', sleeps: 2 },
+  { id: 7, name: 'Cape Codder Resort', city: 'Hyannis', state: 'MA', type: 'Resort', price_per_night: 189, region: 'Cape Cod', sleeps: 4 },
+  { id: 8, name: 'Seadar Inn', city: 'Harwich Port', state: 'MA', type: 'Inn', price_per_night: 179, region: 'Cape Cod', sleeps: 2 },
+  // Vacation Rentals
+  { id: 104, name: 'Oceanfront Estate - Chatham', city: 'Chatham', state: 'MA', type: 'Vacation Rental', price_per_night: 1200, region: 'Cape Cod', sleeps: 16 },
+  { id: 105, name: 'Harwich Golf House', city: 'Harwich', state: 'MA', type: 'Vacation Rental', price_per_night: 750, region: 'Cape Cod', sleeps: 12 },
+  { id: 106, name: 'Dennis Beach Compound', city: 'Dennis', state: 'MA', type: 'Vacation Rental', price_per_night: 850, region: 'Cape Cod', sleeps: 14 },
+  { id: 107, name: 'Brewster Captain\'s House', city: 'Brewster', state: 'MA', type: 'Vacation Rental', price_per_night: 600, region: 'Cape Cod', sleeps: 10 },
 
-  // Massachusetts
-  { id: 10, name: 'Pinehills Resort', city: 'Plymouth', state: 'MA', type: 'Golf Resort', price_per_night: 199, region: 'Massachusetts', amenities: ['Golf Access', 'Restaurant', 'Spa'] },
-  { id: 11, name: 'Red Lion Inn', city: 'Stockbridge', state: 'MA', type: 'Historic Inn', price_per_night: 229, region: 'Massachusetts', amenities: ['Restaurant', 'Pool', 'Historic Charm'] },
-  { id: 12, name: 'Harbor Hotel', city: 'Provincetown', state: 'MA', type: 'Waterfront Hotel', price_per_night: 269, region: 'Massachusetts', amenities: ['Harbor Views', 'Pool', 'Restaurant'] },
+  // ==================== MASSACHUSETTS ====================
+  // Hotels & Resorts
+  { id: 10, name: 'Pinehills Resort', city: 'Plymouth', state: 'MA', type: 'Resort', price_per_night: 199, region: 'Massachusetts', sleeps: 4 },
+  { id: 11, name: 'Red Lion Inn', city: 'Stockbridge', state: 'MA', type: 'Inn', price_per_night: 229, region: 'Massachusetts', sleeps: 2 },
+  { id: 12, name: 'Harbor Hotel', city: 'Provincetown', state: 'MA', type: 'Hotel', price_per_night: 269, region: 'Massachusetts', sleeps: 2 },
+  // Vacation Rentals
+  { id: 108, name: 'Plymouth Lakehouse', city: 'Plymouth', state: 'MA', type: 'Vacation Rental', price_per_night: 550, region: 'Massachusetts', sleeps: 12 },
+  { id: 109, name: 'Berkshires Mountain Estate', city: 'Lenox', state: 'MA', type: 'Vacation Rental', price_per_night: 800, region: 'Massachusetts', sleeps: 16 },
 
-  // New Hampshire
-  { id: 13, name: 'Omni Mount Washington Resort', city: 'Bretton Woods', state: 'NH', type: 'Grand Hotel', price_per_night: 329, region: 'New Hampshire', amenities: ['Golf', 'Spa', 'Fine Dining', 'Pool'] },
-  { id: 14, name: 'Mountain View Grand', city: 'Whitefield', state: 'NH', type: 'Historic Resort', price_per_night: 249, region: 'New Hampshire', amenities: ['Golf', 'Spa', 'Restaurant'] },
-  { id: 15, name: 'Meredith Bay Resort', city: 'Meredith', state: 'NH', type: 'Lake Resort', price_per_night: 179, region: 'New Hampshire', amenities: ['Lake Access', 'Pool', 'Restaurant'] },
+  // ==================== NEW HAMPSHIRE ====================
+  // Hotels & Resorts
+  { id: 13, name: 'Omni Mount Washington Resort', city: 'Bretton Woods', state: 'NH', type: 'Resort', price_per_night: 329, region: 'New Hampshire', sleeps: 4 },
+  { id: 14, name: 'Mountain View Grand', city: 'Whitefield', state: 'NH', type: 'Resort', price_per_night: 249, region: 'New Hampshire', sleeps: 4 },
+  { id: 15, name: 'Meredith Bay Resort', city: 'Meredith', state: 'NH', type: 'Resort', price_per_night: 179, region: 'New Hampshire', sleeps: 4 },
+  // Vacation Rentals
+  { id: 110, name: 'White Mountains Chalet', city: 'Lincoln', state: 'NH', type: 'Vacation Rental', price_per_night: 600, region: 'New Hampshire', sleeps: 14 },
+  { id: 111, name: 'Lakes Region Lake House', city: 'Meredith', state: 'NH', type: 'Vacation Rental', price_per_night: 700, region: 'New Hampshire', sleeps: 16 },
+  { id: 112, name: 'Ski Country Lodge', city: 'Franconia', state: 'NH', type: 'Vacation Rental', price_per_night: 500, region: 'New Hampshire', sleeps: 12 },
 
-  // Vermont
-  { id: 16, name: 'Woodstock Inn & Resort', city: 'Woodstock', state: 'VT', type: 'Luxury Resort', price_per_night: 299, region: 'Vermont', amenities: ['Golf', 'Spa', 'Restaurant', 'Ski'] },
-  { id: 17, name: 'Killington Grand Resort', city: 'Killington', state: 'VT', type: 'Ski Resort', price_per_night: 189, region: 'Vermont', amenities: ['Golf Access', 'Pool', 'Restaurant'] },
-  { id: 18, name: 'Jay Peak Resort', city: 'Jay', state: 'VT', type: 'Mountain Resort', price_per_night: 159, region: 'Vermont', amenities: ['Golf', 'Water Park', 'Spa'] },
-  { id: 19, name: 'Stowe Mountain Lodge', city: 'Stowe', state: 'VT', type: 'Luxury Lodge', price_per_night: 349, region: 'Vermont', amenities: ['Spa', 'Pool', 'Restaurant'] },
+  // ==================== VERMONT ====================
+  // Hotels & Resorts
+  { id: 16, name: 'Woodstock Inn & Resort', city: 'Woodstock', state: 'VT', type: 'Resort', price_per_night: 299, region: 'Vermont', sleeps: 4 },
+  { id: 17, name: 'Killington Grand Resort', city: 'Killington', state: 'VT', type: 'Resort', price_per_night: 189, region: 'Vermont', sleeps: 4 },
+  { id: 18, name: 'Jay Peak Resort', city: 'Jay', state: 'VT', type: 'Resort', price_per_night: 159, region: 'Vermont', sleeps: 4 },
+  { id: 19, name: 'Stowe Mountain Lodge', city: 'Stowe', state: 'VT', type: 'Resort', price_per_night: 349, region: 'Vermont', sleeps: 4 },
+  // Vacation Rentals
+  { id: 113, name: 'Killington Ski Lodge', city: 'Killington', state: 'VT', type: 'Vacation Rental', price_per_night: 650, region: 'Vermont', sleeps: 16 },
+  { id: 114, name: 'Stowe Mountainside Estate', city: 'Stowe', state: 'VT', type: 'Vacation Rental', price_per_night: 850, region: 'Vermont', sleeps: 14 },
+  { id: 115, name: 'Manchester Village House', city: 'Manchester', state: 'VT', type: 'Vacation Rental', price_per_night: 550, region: 'Vermont', sleeps: 12 },
+  { id: 116, name: 'Jay Peak Trailside Cabin', city: 'Jay', state: 'VT', type: 'Vacation Rental', price_per_night: 475, region: 'Vermont', sleeps: 10 },
 
-  // Connecticut
-  { id: 20, name: 'Saybrook Point Resort', city: 'Old Saybrook', state: 'CT', type: 'Waterfront Resort', price_per_night: 279, region: 'Connecticut', amenities: ['Spa', 'Marina', 'Restaurant'] },
-  { id: 21, name: 'Foxwoods Resort', city: 'Mashantucket', state: 'CT', type: 'Casino Resort', price_per_night: 199, region: 'Connecticut', amenities: ['Casino', 'Golf', 'Spa', 'Restaurants'] },
-  { id: 22, name: 'Interlaken Inn', city: 'Lakeville', state: 'CT', type: 'Lake Resort', price_per_night: 189, region: 'Connecticut', amenities: ['Lake', 'Pool', 'Restaurant'] },
+  // ==================== CONNECTICUT ====================
+  // Hotels & Resorts
+  { id: 20, name: 'Saybrook Point Resort', city: 'Old Saybrook', state: 'CT', type: 'Resort', price_per_night: 279, region: 'Connecticut', sleeps: 4 },
+  { id: 21, name: 'Foxwoods Resort', city: 'Mashantucket', state: 'CT', type: 'Resort', price_per_night: 199, region: 'Connecticut', sleeps: 4 },
+  { id: 22, name: 'Interlaken Inn', city: 'Lakeville', state: 'CT', type: 'Inn', price_per_night: 189, region: 'Connecticut', sleeps: 2 },
+  // Vacation Rentals
+  { id: 117, name: 'Mystic Waterfront Estate', city: 'Mystic', state: 'CT', type: 'Vacation Rental', price_per_night: 700, region: 'Connecticut', sleeps: 14 },
+  { id: 118, name: 'Litchfield Hills Farmhouse', city: 'Litchfield', state: 'CT', type: 'Vacation Rental', price_per_night: 550, region: 'Connecticut', sleeps: 12 },
 
-  // Rhode Island
-  { id: 23, name: 'Castle Hill Inn', city: 'Newport', state: 'RI', type: 'Luxury Inn', price_per_night: 499, region: 'Rhode Island', amenities: ['Ocean Views', 'Fine Dining', 'Beach'] },
-  { id: 24, name: 'Newport Marriott', city: 'Newport', state: 'RI', type: 'Downtown Hotel', price_per_night: 229, region: 'Rhode Island', amenities: ['Harbor Views', 'Pool', 'Restaurant'] },
-  { id: 25, name: 'Weekapaug Inn', city: 'Westerly', state: 'RI', type: 'Beach Inn', price_per_night: 399, region: 'Rhode Island', amenities: ['Beach', 'Tennis', 'Fine Dining'] },
+  // ==================== RHODE ISLAND ====================
+  // Hotels & Resorts
+  { id: 23, name: 'Castle Hill Inn', city: 'Newport', state: 'RI', type: 'Inn', price_per_night: 499, region: 'Rhode Island', sleeps: 2 },
+  { id: 24, name: 'Newport Marriott', city: 'Newport', state: 'RI', type: 'Hotel', price_per_night: 229, region: 'Rhode Island', sleeps: 4 },
+  { id: 25, name: 'Weekapaug Inn', city: 'Westerly', state: 'RI', type: 'Inn', price_per_night: 399, region: 'Rhode Island', sleeps: 2 },
+  // Vacation Rentals
+  { id: 119, name: 'Newport Mansion Rental', city: 'Newport', state: 'RI', type: 'Vacation Rental', price_per_night: 1100, region: 'Rhode Island', sleeps: 16 },
+  { id: 120, name: 'Narragansett Beach House', city: 'Narragansett', state: 'RI', type: 'Vacation Rental', price_per_night: 650, region: 'Rhode Island', sleeps: 12 },
 ];
 
 // Generate mock tee times for a given date
