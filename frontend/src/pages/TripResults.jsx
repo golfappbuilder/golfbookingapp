@@ -6,6 +6,7 @@ function TripResults() {
   const navigate = useNavigate();
   const [tripData, setTripData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const prompt = sessionStorage.getItem('tripPrompt');
@@ -45,14 +46,22 @@ function TripResults() {
     }
 
     // Detect group size
-    const groupMatch = prompt.match(/(\d+)\s*(?:guys|people|players|friends|of us)/i);
-    const groupSize = groupMatch ? parseInt(groupMatch[1]) : 4;
+    const groupMatch = prompt.match(/(\d+)\s*(?:guys|people|players|friends|of us|men)/i);
+    const groupSize = groupMatch ? parseInt(groupMatch[1]) : 8;
+
+    // Detect number of rounds
+    const roundsMatch = prompt.match(/(\d+)\s*(?:rounds?|games?)/i);
+    const numRounds = roundsMatch ? parseInt(roundsMatch[1]) : 3;
+
+    // Detect number of nights
+    const nightsMatch = prompt.match(/(\d+)\s*(?:nights?|days?)/i);
+    const numNights = nightsMatch ? parseInt(nightsMatch[1]) : 6;
 
     // Get courses for the region
-    const regionCourses = newEnglandCourses.filter(c => c.region === region).slice(0, 3);
+    const regionCourses = newEnglandCourses.filter(c => c.region === region).slice(0, numRounds);
     if (regionCourses.length === 0) {
       // Fallback to random courses
-      regionCourses.push(...newEnglandCourses.slice(0, 3));
+      regionCourses.push(...newEnglandCourses.slice(0, numRounds));
     }
 
     // Get lodging for the region
@@ -62,7 +71,15 @@ function TripResults() {
     }
 
     // Generate itinerary
-    const itinerary = generateItinerary(regionCourses, startDate, 6);
+    const itinerary = generateItinerary(regionCourses, startDate, numNights);
+
+    // Calculate cost estimates
+    const avgGreenFee = regionCourses.reduce((sum, c) => sum + c.price_weekday, 0) / regionCourses.length;
+    const totalGolfCost = avgGreenFee * numRounds * groupSize;
+    const avgLodgingPerNight = regionLodging[0]?.price_per_night || 200;
+    const totalLodgingCost = avgLodgingPerNight * numNights;
+    const estimatedTotal = totalGolfCost + totalLodgingCost;
+    const perPersonCost = Math.round(estimatedTotal / groupSize);
 
     return {
       prompt,
@@ -70,17 +87,37 @@ function TripResults() {
       startDate,
       endDate,
       groupSize,
+      numRounds,
+      numNights,
       courses: regionCourses,
       lodging: regionLodging,
       itinerary,
+      costs: {
+        golf: Math.round(totalGolfCost),
+        lodging: Math.round(totalLodgingCost),
+        total: Math.round(estimatedTotal),
+        perPerson: perPersonCost,
+      },
     };
+  };
+
+  const handleShare = async () => {
+    const shareText = `Golf Trip Plan: ${tripData.region}\n${tripData.groupSize} players · ${tripData.startDate} - ${tripData.endDate}\n\nCourses:\n${tripData.courses.map(c => `- ${c.name}`).join('\n')}\n\nEstimated cost: $${tripData.costs.perPerson}/person`;
+
+    try {
+      await navigator.clipboard.writeText(shareText);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
   };
 
   if (loading) {
     return (
       <div className="trip-results">
         <div className="loading">
-          <p>Creating your perfect golf trip...</p>
+          <p>Researching your perfect golf trip...</p>
         </div>
       </div>
     );
@@ -101,11 +138,34 @@ function TripResults() {
       <div className="trip-results-header">
         <h1>Your {tripData.region} Golf Trip</h1>
         <p className="trip-summary">
-          {tripData.groupSize} players · {tripData.startDate} - {tripData.endDate}
+          {tripData.groupSize} players · {tripData.numRounds} rounds · {tripData.startDate} - {tripData.endDate}
         </p>
       </div>
 
       <div className="trip-sections">
+        {/* Cost Estimate Section */}
+        <section className="trip-section cost-estimate">
+          <h2>Estimated Trip Cost</h2>
+          <div className="cost-breakdown">
+            <div className="cost-row">
+              <span>Golf ({tripData.numRounds} rounds x {tripData.groupSize} players)</span>
+              <span>${tripData.costs.golf.toLocaleString()}</span>
+            </div>
+            <div className="cost-row">
+              <span>Lodging ({tripData.numNights} nights)</span>
+              <span>${tripData.costs.lodging.toLocaleString()}</span>
+            </div>
+            <div className="cost-row total">
+              <span>Total Estimate</span>
+              <span>${tripData.costs.total.toLocaleString()}</span>
+            </div>
+          </div>
+          <div className="cost-per-person">
+            <div className="amount">${tripData.costs.perPerson.toLocaleString()}</div>
+            <div className="label">per person</div>
+          </div>
+        </section>
+
         {/* Itinerary Section */}
         <section className="trip-section">
           <h2>Suggested Itinerary</h2>
@@ -140,7 +200,7 @@ function TripResults() {
             <div key={lodge.id} className="lodging-option">
               <div className="lodging-option-info">
                 <h4>{lodge.name}</h4>
-                <p>{lodge.city}, {lodge.state} · {lodge.type}</p>
+                <p>{lodge.city}, {lodge.state} · {lodge.type} · Sleeps {lodge.sleeps || 'varies'}</p>
               </div>
               <div className="lodging-option-price">
                 <span className="price">${lodge.price_per_night}</span>
@@ -148,18 +208,18 @@ function TripResults() {
               </div>
             </div>
           ))}
-          <p style={{ marginTop: '1rem', fontSize: '0.9rem', color: 'var(--text-light)' }}>
-            Lodging links powered by Booking.com (coming soon)
-          </p>
         </section>
       </div>
 
       <div className="trip-actions">
         <Link to="/" className="btn btn-outline">
-          Plan Another Trip
+          Start Over
         </Link>
+        <button className="btn btn-share" onClick={handleShare}>
+          {copied ? 'Copied!' : 'Copy to Share'}
+        </button>
         <button className="btn btn-primary" onClick={() => window.print()}>
-          Save Trip Plan
+          Print Trip Plan
         </button>
       </div>
     </div>

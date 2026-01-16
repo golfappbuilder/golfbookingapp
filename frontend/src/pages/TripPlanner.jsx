@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const examplePrompts = [
-  "Weekend trip to Cape Cod",
-  "Vermont golf getaway",
-  "Maine coastal courses",
-  "Bachelor party in NH",
+  "12 guys, Cape Cod, early August, 3 rounds",
+  "Bachelor party in Vermont, need lodging",
+  "Weekend trip to Maine, 6 players",
+  "NH golf trip for 8, budget-friendly",
 ];
 
 function TripPlanner() {
@@ -34,9 +34,9 @@ function TripPlanner() {
   return (
     <div className="trip-planner">
       <div className="trip-planner-hero">
-        <h1>Plan Your Golf Trip</h1>
-        <p className="tagline">Tell us about your dream golf getaway</p>
-        <p className="subtitle">We'll find the best courses and lodging in New England</p>
+        <h1>Your AI <span>Golf Trip</span> Research Guide</h1>
+        <p className="tagline">Planning a golf trip with the boys? We'll do the research for you.</p>
+        <p className="subtitle">Just tell us what you're looking for - we'll find the courses, lodging, and build your itinerary.</p>
       </div>
 
       <form onSubmit={handleSubmit} className="prompt-container">
@@ -45,10 +45,10 @@ function TripPlanner() {
           className="prompt-textarea"
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
-          placeholder="Example: We're 6 guys heading to Vermont August 4th-10th. Want to play 3 rounds of golf, maybe 2 at one course if it's great. Looking to stay somewhere near Killington with a hot tub. Driving from Boston, so no flights needed. Budget is around $200/night for lodging."
+          placeholder="Example: We're 12 guys heading to Cape Cod the first week of August. Want to play 3-4 rounds at different courses. Looking for a big house or two nearby places that can fit everyone. Budget is around $150-200/person per day including golf and lodging. Driving from NYC."
         />
         <div className="prompt-footer">
-          <span className="prompt-hint">Include dates, group size, location preferences, and budget</span>
+          <span className="prompt-hint">Include group size, dates, region, and budget</span>
           <button
             type="submit"
             className="btn btn-primary btn-large"
@@ -56,7 +56,7 @@ function TripPlanner() {
           >
             {loading ? (
               <>
-                <span className="spinner"></span> Planning...
+                <span className="spinner"></span> Researching...
               </>
             ) : (
               'Plan My Trip'

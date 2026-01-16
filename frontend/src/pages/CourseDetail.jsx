@@ -1,21 +1,12 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { coursesApi, teeTimesApi, bookingsApi } from '../services/api';
-import { useAuth } from '../context/AuthContext';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { coursesApi } from '../services/api';
 
 function CourseDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user } = useAuth();
   const [course, setCourse] = useState(null);
-  const [teeTimes, setTeeTimes] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(
-    new Date().toISOString().split('T')[0]
-  );
-  const [selectedTeeTime, setSelectedTeeTime] = useState(null);
-  const [players, setPlayers] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [booking, setBooking] = useState(false);
 
   useEffect(() => {
     coursesApi.getById(id)
@@ -24,102 +15,51 @@ function CourseDetail() {
       .finally(() => setLoading(false));
   }, [id, navigate]);
 
-  useEffect(() => {
-    if (course) {
-      teeTimesApi.getAvailable(id, selectedDate)
-        .then(response => setTeeTimes(response.data))
-        .catch(() => setTeeTimes([]));
-    }
-  }, [id, selectedDate, course]);
-
-  const handleBooking = async () => {
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-    if (!selectedTeeTime) return;
-
-    setBooking(true);
-    try {
-      await bookingsApi.create(selectedTeeTime.id, players, selectedTeeTime);
-      navigate('/bookings');
-    } catch (error) {
-      alert(error.response?.data?.error || 'Booking failed');
-    } finally {
-      setBooking(false);
-    }
-  };
-
   if (loading) return <div className="loading">Loading...</div>;
   if (!course) return <div className="error">Course not found</div>;
 
-  const isWeekend = new Date(selectedDate).getDay() % 6 === 0;
-  const price = isWeekend ? course.price_weekend : course.price_weekday;
-
   return (
-    <div className="course-detail">
-      <div className="course-info">
-        <h1>{course.name}</h1>
-        <p className="address">{course.address}, {course.city}, {course.state} {course.zip}</p>
-        <p className="details">{course.holes} holes | Par {course.par_total}</p>
-        {course.description && <p className="description">{course.description}</p>}
-      </div>
+    <div className="main-content">
+      <Link to="/courses" className="btn btn-outline" style={{ marginBottom: '1.5rem' }}>
+        Back to Courses
+      </Link>
 
-      <div className="booking-section">
-        <h2>Book a Tee Time</h2>
-
-        <div className="form-group">
-          <label>Select Date</label>
-          <input
-            type="date"
-            value={selectedDate}
-            min={new Date().toISOString().split('T')[0]}
-            onChange={(e) => setSelectedDate(e.target.value)}
-          />
+      <div className="course-detail">
+        <div className="course-info">
+          <span className="region-badge">{course.region}</span>
+          <h1>{course.name}</h1>
+          <p className="address">{course.address}, {course.city}, {course.state} {course.zip}</p>
+          <p className="details">{course.holes} holes · Par {course.par_total}</p>
+          {course.description && <p className="description">{course.description}</p>}
         </div>
 
-        <div className="form-group">
-          <label>Number of Players</label>
-          <select value={players} onChange={(e) => setPlayers(Number(e.target.value))}>
-            {[1, 2, 3, 4].map(n => (
-              <option key={n} value={n}>{n} Player{n > 1 ? 's' : ''}</option>
-            ))}
-          </select>
-        </div>
-
-        <div className="tee-times-list">
-          <h3>Available Tee Times</h3>
-          {teeTimes.length === 0 ? (
-            <p>No tee times available for this date.</p>
-          ) : (
-            <div className="tee-times-grid">
-              {teeTimes.map(tt => (
-                <button
-                  key={tt.id}
-                  className={`tee-time-btn ${selectedTeeTime?.id === tt.id ? 'selected' : ''}`}
-                  onClick={() => setSelectedTeeTime(tt)}
-                  disabled={tt.available_slots < players}
-                >
-                  {tt.tee_time.slice(0, 5)}
-                  <span className="slots">{tt.available_slots} slots</span>
-                </button>
-              ))}
+        <div className="info-section">
+          <h2>Green Fees</h2>
+          <div style={{ marginBottom: '1rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.75rem 0', borderBottom: '1px solid var(--border)' }}>
+              <span>Weekday</span>
+              <strong>${course.price_weekday}</strong>
             </div>
-          )}
-        </div>
-
-        {selectedTeeTime && (
-          <div className="booking-summary">
-            <p>Total: <strong>${price * players}</strong> ({players} x ${price})</p>
-            <button
-              className="btn btn-primary btn-large"
-              onClick={handleBooking}
-              disabled={booking}
-            >
-              {booking ? 'Booking...' : 'Confirm Booking'}
-            </button>
+            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.75rem 0' }}>
+              <span>Weekend</span>
+              <strong>${course.price_weekend}</strong>
+            </div>
           </div>
-        )}
+
+          <h2 style={{ marginTop: '1.5rem' }}>Course Info</h2>
+          <div style={{ color: 'var(--text-light)', fontSize: '0.95rem', lineHeight: '1.7' }}>
+            <p>Contact the pro shop directly to book tee times and check availability.</p>
+            {course.phone && <p style={{ marginTop: '0.5rem' }}>Phone: {course.phone}</p>}
+          </div>
+
+          <div style={{ marginTop: '1.5rem', padding: '1rem', background: 'var(--bg)', borderRadius: 'var(--radius)', fontSize: '0.9rem', color: 'var(--text-light)' }}>
+            <strong style={{ color: 'var(--text)' }}>Planning a group trip?</strong>
+            <p style={{ marginTop: '0.5rem' }}>Use our AI trip planner to find the best courses and lodging for your golf getaway.</p>
+            <Link to="/" className="btn btn-primary" style={{ marginTop: '1rem' }}>
+              Plan a Trip
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );

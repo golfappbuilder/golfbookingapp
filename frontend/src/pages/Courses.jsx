@@ -57,7 +57,7 @@ function Courses() {
               <p className="details">{course.holes} holes | Par {course.par_total}</p>
               <p className="price">From ${course.price_weekday}</p>
               <Link to={`/courses/${course.id}`} className="btn btn-primary">
-                View & Book
+                View Details
               </Link>
             </div>
           ))}
