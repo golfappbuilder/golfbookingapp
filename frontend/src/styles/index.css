@@ -1096,6 +1096,315 @@ body {
   margin: 0 auto 1rem;
 }
 
+/* Star Rating Component */
+.star-rating {
+  display: inline-flex;
+  gap: 0.125rem;
+}
+
+.star-rating .star {
+  font-size: 1.5rem;
+  color: var(--border);
+  cursor: pointer;
+  transition: color 0.1s, transform 0.1s;
+}
+
+.star-rating .star:hover {
+  transform: scale(1.1);
+}
+
+.star-rating .star.filled {
+  color: var(--accent);
+}
+
+.star-rating.readonly .star {
+  cursor: default;
+}
+
+.star-rating.readonly .star:hover {
+  transform: none;
+}
+
+.star-rating.star-small .star {
+  font-size: 1rem;
+}
+
+.star-rating.star-large .star {
+  font-size: 2rem;
+}
+
+/* Trip Review Page */
+.trip-review-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.trip-review-page .review-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.trip-review-page .review-header h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.trip-review-page .review-header p {
+  color: var(--text-light);
+  font-size: 1.05rem;
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.review-section {
+  background: var(--white);
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.review-section h2 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.course-review-card {
+  background: var(--bg);
+  padding: 1.25rem;
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+}
+
+.course-review-card:last-child {
+  margin-bottom: 0;
+}
+
+.course-review-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+
+.rating-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.rating-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rating-label {
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.review-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  padding-top: 1rem;
+}
+
+/* Review Success State */
+.review-success {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.review-success .success-icon {
+  width: 80px;
+  height: 80px;
+  background: var(--primary);
+  color: var(--white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  margin: 0 auto 1.5rem;
+}
+
+.review-success h1 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.review-success p {
+  color: var(--text-light);
+  margin-bottom: 2rem;
+}
+
+.success-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+/* No Trip State */
+.no-trip {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.no-trip h1 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.no-trip p {
+  color: var(--text-light);
+  margin-bottom: 2rem;
+}
+
+/* Reviews on Course Detail Page */
+.ratings-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.rating-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+.rating-summary-row.overall {
+  border-top: 1px solid var(--border);
+  padding-top: 0.75rem;
+  margin-top: 0.25rem;
+  font-weight: 600;
+}
+
+.rating-value {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.rating-value span {
+  font-weight: 600;
+  color: var(--text);
+  min-width: 2rem;
+}
+
+.review-count {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.75rem;
+  text-align: center;
+}
+
+/* Reviews Section */
+.reviews-section {
+  margin-top: 2rem;
+}
+
+.reviews-section h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.review-card {
+  background: var(--white);
+  padding: 1.25rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  margin-bottom: 1rem;
+}
+
+.review-card:last-child {
+  margin-bottom: 0;
+}
+
+.review-card .review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.reviewer-info strong {
+  font-size: 1rem;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.review-meta {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.review-overall {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.review-feedback {
+  margin-top: 0.75rem;
+}
+
+.feedback-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.feedback-label.good {
+  color: var(--primary);
+}
+
+.feedback-label.bad {
+  color: var(--danger);
+}
+
+.review-feedback p {
+  font-size: 0.95rem;
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+/* Review CTA on Trip Results */
+.review-cta {
+  text-align: center;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: var(--bg);
+  border-radius: var(--radius-lg);
+}
+
+.review-cta p {
+  color: var(--text-light);
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+}
+
 /* Mobile Responsive */
 @media (max-width: 640px) {
   .options-grid {

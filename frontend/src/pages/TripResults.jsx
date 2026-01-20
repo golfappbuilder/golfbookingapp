@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { newEnglandCourses, newEnglandLodging } from '../services/mockData';
 
 function TripResults() {
@@ -249,6 +249,19 @@ function TripResults() {
     alert('Trip copied! Share it with the group.');
   };
 
+  const leaveReview = () => {
+    if (!finalTrip) return;
+    // Save completed trip data for review page
+    sessionStorage.setItem('completedTrip', JSON.stringify({
+      courses: finalTrip.courses,
+      lodging: finalTrip.lodging,
+      region: tripRequest.region,
+      groupSize: tripRequest.groupSize + ' guys',
+      tripType: tripRequest.tripType,
+    }));
+    navigate('/review');
+  };
+
   if (loading) {
     return (
       <div className="trip-results">
@@ -475,6 +488,11 @@ function TripResults() {
         <button className="btn btn-outline" onClick={startOver}>← Change Selections</button>
         <button className="btn btn-share" onClick={copyTrip}>Copy & Share</button>
         <button className="btn btn-primary" onClick={() => window.print()}>Print Trip</button>
+      </div>
+
+      <div className="review-cta">
+        <p>Already took this trip?</p>
+        <button className="btn btn-accent" onClick={leaveReview}>Leave a Review</button>
       </div>
     </div>
   );
