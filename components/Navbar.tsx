@@ -33,10 +33,10 @@ export default function Navbar() {
               Browse Courses
             </Link>
             <Link
-              href="/my-bookings"
+              href="/my-trips"
               className="bg-masters-yellow text-masters-green-dark hover:bg-masters-yellow-dark px-4 py-2 rounded-lg transition-colors font-medium"
             >
-              My Bookings
+              My Trips
             </Link>
           </div>
         </div>

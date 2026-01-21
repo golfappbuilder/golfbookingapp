@@ -23,7 +23,7 @@ interface Booking {
   };
 }
 
-export default function MyBookingsPage() {
+export default function MyTripsPage() {
   const [email, setEmail] = useState('');
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(false);
@@ -47,7 +47,7 @@ export default function MyBookingsPage() {
       setBookings(data);
       setSearched(true);
     } catch {
-      setError('Failed to fetch bookings. Please try again.');
+      setError('Failed to fetch trips. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -64,9 +64,9 @@ export default function MyBookingsPage() {
     <div className="bg-gray-50 min-h-screen">
       <div className="bg-masters-green text-white py-12">
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-4">My Bookings</h1>
+          <h1 className="text-4xl font-bold mb-4">My Trips</h1>
           <p className="text-masters-green-light text-lg">
-            Enter your email to view your tee time reservations
+            Enter your email to view your saved trip itineraries
           </p>
         </div>
       </div>
@@ -88,7 +88,7 @@ export default function MyBookingsPage() {
                 disabled={loading}
                 className="bg-masters-yellow hover:bg-masters-yellow-dark text-masters-green-dark px-6 py-3 rounded-lg font-semibold transition-colors disabled:opacity-50"
               >
-                {loading ? 'Searching...' : 'Find Bookings'}
+                {loading ? 'Searching...' : 'Find My Trips'}
               </button>
             </form>
             {error && (
@@ -115,22 +115,22 @@ export default function MyBookingsPage() {
                     />
                   </svg>
                   <p className="text-gray-500 mb-4">
-                    No bookings found for this email address
+                    No trips found for this email address
                   </p>
                   <Link
-                    href="/courses"
+                    href="/"
                     className="inline-block text-masters-green hover:text-masters-green-dark font-medium"
                   >
-                    Browse courses and book a tee time
+                    Plan your first golf trip
                   </Link>
                 </div>
               ) : (
                 <>
-                  {/* Upcoming Bookings */}
+                  {/* Upcoming Trips */}
                   {upcomingBookings.length > 0 && (
                     <section className="mb-8">
                       <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                        Upcoming Bookings ({upcomingBookings.length})
+                        Upcoming Trips ({upcomingBookings.length})
                       </h2>
                       <div className="space-y-4">
                         {upcomingBookings.map((booking) => (
@@ -140,11 +140,11 @@ export default function MyBookingsPage() {
                     </section>
                   )}
 
-                  {/* Past Bookings */}
+                  {/* Past Trips */}
                   {pastBookings.length > 0 && (
                     <section>
                       <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                        Past & Cancelled ({pastBookings.length})
+                        Past Trips ({pastBookings.length})
                       </h2>
                       <div className="space-y-4 opacity-75">
                         {pastBookings.map((booking) => (
@@ -160,7 +160,7 @@ export default function MyBookingsPage() {
 
           {!searched && (
             <div className="text-center text-gray-500 py-8">
-              <p>Enter your email above to view your bookings</p>
+              <p>Enter your email above to view your trips</p>
             </div>
           )}
         </div>

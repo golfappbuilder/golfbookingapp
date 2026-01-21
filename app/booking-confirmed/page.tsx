@@ -52,10 +52,10 @@ function ConfirmationContent() {
 
             <div className="space-y-3">
               <Link
-                href="/my-bookings"
+                href="/my-trips"
                 className="block w-full bg-masters-yellow hover:bg-masters-yellow-dark text-masters-green-dark py-3 rounded-lg font-semibold transition-colors"
               >
-                View My Bookings
+                View My Trips
               </Link>
               <Link
                 href="/courses"

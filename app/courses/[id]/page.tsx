@@ -219,7 +219,7 @@ export default function CourseDetailPage() {
             </div>
           </div>
 
-          {/* Right Column - Booking Card */}
+          {/* Right Column - Course Info Card */}
           <div className="space-y-6">
             <div className="bg-white rounded-xl shadow-sm p-6 sticky top-4">
               <div className="flex items-center justify-between mb-4">
@@ -238,31 +238,41 @@ export default function CourseDetailPage() {
               </div>
 
               <div className="border-t pt-4 mb-4">
-                <p className="text-gray-500 text-sm mb-2">Additional Fees</p>
+                <p className="text-gray-500 text-sm mb-2">Estimated Pricing</p>
+                <div className="flex justify-between text-sm mb-1">
+                  <span>Green Fee</span>
+                  <span className="font-medium">${course.greenFee}/person</span>
+                </div>
                 <div className="flex justify-between text-sm">
                   <span>Golf Cart</span>
                   <span className="font-medium">${course.cartFee}/cart</span>
                 </div>
               </div>
 
-              <Link
-                href={`/book?courseId=${course.id}`}
-                className="block w-full bg-masters-yellow hover:bg-masters-yellow-dark text-masters-green-dark text-center px-6 py-3 rounded-lg font-semibold transition-colors"
+              <a
+                href={`mailto:${course.email}`}
+                className="block w-full bg-masters-yellow hover:bg-masters-yellow-dark text-masters-green-dark text-center px-6 py-3 rounded-lg font-semibold transition-colors mb-3"
               >
-                Book a Tee Time
-              </Link>
+                Contact Course
+              </a>
 
-              <div className="mt-4 text-center">
-                <p className="text-gray-500 text-sm">
+              <div className="text-center">
+                <p className="text-gray-500 text-sm mb-2">
                   <svg className="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
                   {course.phone}
                 </p>
+                <p className="text-gray-500 text-sm">
+                  <svg className="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  {course.email}
+                </p>
               </div>
             </div>
 
-            {/* Contact Card */}
+            {/* Location Card */}
             <div className="bg-white rounded-xl shadow-sm p-6">
               <h3 className="font-semibold mb-3 text-gray-900">Location</h3>
               <p className="text-gray-600 text-sm">
