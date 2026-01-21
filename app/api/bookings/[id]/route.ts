@@ -1,122 +1,93 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { mockBookings, getCourseById } from '@/lib/mock-data';
 
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  try {
-    const { id } = await params;
-    const booking = await prisma.booking.findUnique({
-      where: { id },
-      include: { course: true, user: true },
-    });
+  const { id } = await params;
+  const booking = mockBookings.find(b => b.id === id);
 
-    if (!booking) {
-      return NextResponse.json(
-        { error: 'Booking not found' },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json(booking);
-  } catch (error) {
-    console.error('Error fetching booking:', error);
+  if (!booking) {
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: 'Booking not found' },
+      { status: 404 }
     );
   }
+
+  return NextResponse.json({
+    ...booking,
+    course: getCourseById(booking.courseId),
+  });
 }
 
 export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  try {
-    const { id } = await params;
-    const body = await request.json();
+  const { id } = await params;
+  const body = await request.json();
 
-    const booking = await prisma.booking.findUnique({
-      where: { id },
-    });
+  const bookingIndex = mockBookings.findIndex(b => b.id === id);
 
-    if (!booking) {
-      return NextResponse.json(
-        { error: 'Booking not found' },
-        { status: 404 }
-      );
-    }
-
-    // If changing date/time/players, recalculate price
-    let updateData = { ...body };
-
-    if (body.numberOfPlayers || body.includeCart !== undefined) {
-      const course = await prisma.course.findUnique({
-        where: { id: booking.courseId },
-      });
-
-      if (course) {
-        const numberOfPlayers = body.numberOfPlayers || booking.numberOfPlayers;
-        const includeCart = body.includeCart !== undefined ? body.includeCart : booking.includeCart;
-
-        const greenFeeTotal = course.greenFee * numberOfPlayers;
-        const cartFeeTotal = includeCart ? course.cartFee * Math.ceil(numberOfPlayers / 2) : 0;
-        updateData.totalPrice = greenFeeTotal + cartFeeTotal;
-      }
-    }
-
-    if (body.playerNames && Array.isArray(body.playerNames)) {
-      updateData.playerNames = JSON.stringify(body.playerNames);
-    }
-
-    const updatedBooking = await prisma.booking.update({
-      where: { id },
-      data: updateData,
-      include: { course: true },
-    });
-
-    return NextResponse.json(updatedBooking);
-  } catch (error) {
-    console.error('Error updating booking:', error);
+  if (bookingIndex === -1) {
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: 'Booking not found' },
+      { status: 404 }
     );
   }
+
+  const booking = mockBookings[bookingIndex];
+  const course = getCourseById(booking.courseId);
+
+  // Update booking
+  if (body.numberOfPlayers || body.includeCart !== undefined) {
+    if (course) {
+      const numberOfPlayers = body.numberOfPlayers || booking.numberOfPlayers;
+      const includeCart = body.includeCart !== undefined ? body.includeCart : booking.includeCart;
+
+      const greenFeeTotal = course.greenFee * numberOfPlayers;
+      const cartFeeTotal = includeCart ? course.cartFee * Math.ceil(numberOfPlayers / 2) : 0;
+      body.totalPrice = greenFeeTotal + cartFeeTotal;
+    }
+  }
+
+  if (body.playerNames && Array.isArray(body.playerNames)) {
+    body.playerNames = JSON.stringify(body.playerNames);
+  }
+
+  mockBookings[bookingIndex] = {
+    ...booking,
+    ...body,
+    updatedAt: new Date(),
+  };
+
+  return NextResponse.json({
+    ...mockBookings[bookingIndex],
+    course,
+  });
 }
 
 export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  try {
-    const { id } = await params;
+  const { id } = await params;
+  const bookingIndex = mockBookings.findIndex(b => b.id === id);
 
-    const booking = await prisma.booking.findUnique({
-      where: { id },
-    });
-
-    if (!booking) {
-      return NextResponse.json(
-        { error: 'Booking not found' },
-        { status: 404 }
-      );
-    }
-
-    // Soft delete by setting status to cancelled
-    const cancelledBooking = await prisma.booking.update({
-      where: { id },
-      data: { status: 'cancelled' },
-      include: { course: true },
-    });
-
-    return NextResponse.json(cancelledBooking);
-  } catch (error) {
-    console.error('Error cancelling booking:', error);
+  if (bookingIndex === -1) {
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: 'Booking not found' },
+      { status: 404 }
     );
   }
+
+  // Soft delete by setting status to cancelled
+  mockBookings[bookingIndex].status = 'cancelled';
+  mockBookings[bookingIndex].updatedAt = new Date();
+
+  return NextResponse.json({
+    ...mockBookings[bookingIndex],
+    course: getCourseById(mockBookings[bookingIndex].courseId),
+  });
 }
