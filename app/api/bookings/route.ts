@@ -7,22 +7,22 @@ function generateConfirmationNumber(): string {
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const userId = searchParams.get('userId');
+  const email = searchParams.get('email');
 
-  if (!userId) {
+  if (!email) {
     return NextResponse.json(
-      { error: 'userId parameter is required' },
+      { error: 'email parameter is required' },
       { status: 400 }
     );
   }
 
   const userBookings = mockBookings
-    .filter(b => b.userId === userId)
+    .filter(b => b.email?.toLowerCase() === email.toLowerCase())
     .map(b => ({
       ...b,
       course: getCourseById(b.courseId),
     }))
-    .sort((a, b) => a.date.localeCompare(b.date));
+    .sort((a, b) => b.date.localeCompare(a.date));
 
   return NextResponse.json(userBookings);
 }
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
   const body = await request.json();
   const {
     courseId,
-    userId,
+    email,
     date,
     teeTime,
     numberOfPlayers,
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
     notes,
   } = body;
 
-  if (!courseId || !userId || !date || !teeTime || !numberOfPlayers) {
+  if (!courseId || !email || !date || !teeTime || !numberOfPlayers) {
     return NextResponse.json(
       { error: 'Missing required fields' },
       { status: 400 }
@@ -65,7 +65,7 @@ export async function POST(request: Request) {
   const booking = {
     id: 'booking-' + Math.random().toString(36).substring(2, 10),
     courseId,
-    userId,
+    email,
     date,
     teeTime,
     numberOfPlayers,
@@ -75,8 +75,6 @@ export async function POST(request: Request) {
     status: 'confirmed',
     confirmationNumber: generateConfirmationNumber(),
     notes: notes || null,
-    emailNotificationSent: false,
-    reminderSent: false,
     createdAt: new Date(),
     updatedAt: new Date(),
     course,

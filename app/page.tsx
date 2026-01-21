@@ -27,10 +27,10 @@ export default function Home() {
                 Browse Courses
               </Link>
               <Link
-                href="/register"
+                href="/my-bookings"
                 className="border-2 border-masters-yellow text-masters-yellow hover:bg-masters-yellow hover:text-masters-green-dark px-8 py-4 rounded-lg font-semibold text-lg transition-colors text-center"
               >
-                Create Account
+                My Bookings
               </Link>
             </div>
           </div>

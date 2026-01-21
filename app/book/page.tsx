@@ -2,14 +2,12 @@
 
 import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { useAuth } from '@/lib/auth';
 import type { Course, TeeTime } from '@/types';
 import { format, addDays, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isToday, isBefore, startOfToday } from 'date-fns';
 
 function BookingContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { user, isAuthenticated } = useAuth();
 
   const courseId = searchParams.get('courseId');
 
@@ -21,6 +19,7 @@ function BookingContent() {
   const [numberOfPlayers, setNumberOfPlayers] = useState(2);
   const [includeCart, setIncludeCart] = useState(false);
   const [playerNames, setPlayerNames] = useState<string[]>(['']);
+  const [email, setEmail] = useState('');
   const [notes, setNotes] = useState('');
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -73,12 +72,12 @@ function BookingContent() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!isAuthenticated) {
-      router.push(`/login?redirect=/book?courseId=${courseId}`);
+    if (!selectedTime || !course) return;
+
+    if (!email.trim() || !email.includes('@')) {
+      setError('Please enter a valid email address');
       return;
     }
-
-    if (!selectedTime || !course || !user) return;
 
     setSubmitting(true);
     setError('');
@@ -89,7 +88,7 @@ function BookingContent() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           courseId,
-          userId: user.id,
+          email: email.trim(),
           date: format(selectedDate, 'yyyy-MM-dd'),
           teeTime: selectedTime,
           numberOfPlayers,
@@ -104,7 +103,8 @@ function BookingContent() {
         throw new Error(data.error || 'Failed to create booking');
       }
 
-      router.push('/dashboard?success=true');
+      const booking = await res.json();
+      router.push(`/booking-confirmed?confirmation=${booking.confirmationNumber}&email=${encodeURIComponent(email)}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to create booking');
     } finally {
@@ -293,6 +293,23 @@ function BookingContent() {
                   <div className="space-y-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Your Email <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="you@example.com"
+                        required
+                        className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-masters-green"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">
+                        We&apos;ll send your confirmation here
+                      </p>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
                         Number of Players
                       </label>
                       <select
@@ -396,12 +413,12 @@ function BookingContent() {
 
                 <button
                   type="submit"
-                  disabled={!selectedTime || submitting}
+                  disabled={!selectedTime || submitting || !email}
                   className={`
                     w-full py-4 rounded-lg font-semibold text-lg transition-colors
                     ${
-                      selectedTime && !submitting
-                        ? 'bg-masters-green hover:bg-masters-green-dark text-white'
+                      selectedTime && !submitting && email
+                        ? 'bg-masters-yellow hover:bg-masters-yellow-dark text-masters-green-dark'
                         : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                     }
                   `}
@@ -412,19 +429,6 @@ function BookingContent() {
                     ? `Book for ${selectedTime}`
                     : 'Select a Tee Time'}
                 </button>
-
-                {!isAuthenticated && (
-                  <p className="text-center text-sm text-gray-500">
-                    You&apos;ll need to{' '}
-                    <a
-                      href="/login"
-                      className="text-masters-green hover:underline"
-                    >
-                      login
-                    </a>{' '}
-                    to complete your booking
-                  </p>
-                )}
               </form>
             </div>
           </div>

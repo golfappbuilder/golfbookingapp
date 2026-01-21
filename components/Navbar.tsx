@@ -1,11 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useAuth } from '@/lib/auth';
 
 export default function Navbar() {
-  const { user, isAuthenticated, logout } = useAuth();
-
   return (
     <nav className="bg-masters-green text-white shadow-lg">
       <div className="container mx-auto px-4">
@@ -28,59 +25,18 @@ export default function Navbar() {
             <span className="font-pacifico text-2xl text-masters-yellow">Breakfast Ball</span>
           </Link>
 
-          <div className="hidden md:flex items-center space-x-6">
+          <div className="flex items-center space-x-6">
             <Link
               href="/courses"
               className="hover:text-masters-yellow transition-colors"
             >
               Browse Courses
             </Link>
-
-            {isAuthenticated ? (
-              <>
-                <Link
-                  href="/dashboard"
-                  className="hover:text-masters-yellow transition-colors"
-                >
-                  My Bookings
-                </Link>
-                <div className="flex items-center space-x-4">
-                  <span className="text-masters-green-light">
-                    Hi, {user?.firstName}
-                  </span>
-                  <button
-                    onClick={logout}
-                    className="bg-masters-yellow hover:bg-masters-yellow-dark text-masters-green-dark px-4 py-2 rounded-lg transition-colors font-medium"
-                  >
-                    Logout
-                  </button>
-                </div>
-              </>
-            ) : (
-              <div className="flex items-center space-x-4">
-                <Link
-                  href="/login"
-                  className="hover:text-masters-yellow transition-colors"
-                >
-                  Login
-                </Link>
-                <Link
-                  href="/register"
-                  className="bg-masters-yellow text-masters-green-dark hover:bg-masters-yellow-dark px-4 py-2 rounded-lg transition-colors font-medium"
-                >
-                  Sign Up
-                </Link>
-              </div>
-            )}
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden">
             <Link
-              href={isAuthenticated ? '/dashboard' : '/login'}
-              className="bg-masters-yellow hover:bg-masters-yellow-dark text-masters-green-dark px-4 py-2 rounded-lg transition-colors font-medium"
+              href="/my-bookings"
+              className="bg-masters-yellow text-masters-green-dark hover:bg-masters-yellow-dark px-4 py-2 rounded-lg transition-colors font-medium"
             >
-              {isAuthenticated ? 'Dashboard' : 'Login'}
+              My Bookings
             </Link>
           </div>
         </div>

@@ -128,23 +128,11 @@ export const mockCourses = [
   },
 ];
 
-export const mockUser = {
-  id: 'user-demo',
-  email: 'demo@golfbooking.com',
-  firstName: 'John',
-  lastName: 'Golfer',
-  phone: '(555) 987-6543',
-  handicap: 15,
-  membershipType: 'member',
-  createdAt: new Date(),
-  updatedAt: new Date(),
-};
-
 // In-memory bookings store (resets on each deploy, but works for demo)
 export const mockBookings: Array<{
   id: string;
   courseId: string;
-  userId: string;
+  email: string;
   date: string;
   teeTime: string;
   numberOfPlayers: number;
@@ -154,8 +142,6 @@ export const mockBookings: Array<{
   status: string;
   confirmationNumber: string;
   notes: string | null;
-  emailNotificationSent: boolean;
-  reminderSent: boolean;
   createdAt: Date;
   updatedAt: Date;
   course?: typeof mockCourses[0];
