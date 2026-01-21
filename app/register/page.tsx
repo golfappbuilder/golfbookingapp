@@ -65,9 +65,9 @@ export default function RegisterPage() {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center space-x-2 text-golf-green-600">
+          <Link href="/" className="inline-flex items-center space-x-2">
             <svg
-              className="w-10 h-10"
+              className="w-10 h-10 text-masters-yellow"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -80,7 +80,7 @@ export default function RegisterPage() {
                 d="M12 2v4m0 12v4m-10-10h4m12 0h4"
               />
             </svg>
-            <span className="text-2xl font-bold">Golf Booking</span>
+            <span className="font-pacifico text-3xl text-masters-green">Breakfast Ball</span>
           </Link>
           <h1 className="mt-6 text-3xl font-bold text-gray-900">
             Create an account
@@ -113,7 +113,7 @@ export default function RegisterPage() {
                   value={formData.firstName}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-golf-green-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-masters-green focus:border-transparent"
                   placeholder="John"
                 />
               </div>
@@ -132,7 +132,7 @@ export default function RegisterPage() {
                   value={formData.lastName}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-golf-green-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-masters-green focus:border-transparent"
                   placeholder="Doe"
                 />
               </div>
@@ -152,7 +152,7 @@ export default function RegisterPage() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-golf-green-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-masters-green focus:border-transparent"
                 placeholder="you@example.com"
               />
             </div>
@@ -170,7 +170,7 @@ export default function RegisterPage() {
                 type="tel"
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-golf-green-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-masters-green focus:border-transparent"
                 placeholder="(555) 123-4567"
               />
             </div>
@@ -189,7 +189,7 @@ export default function RegisterPage() {
                 value={formData.password}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-golf-green-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-masters-green focus:border-transparent"
                 placeholder="At least 6 characters"
               />
             </div>
@@ -208,7 +208,7 @@ export default function RegisterPage() {
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-golf-green-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-masters-green focus:border-transparent"
                 placeholder="Confirm your password"
               />
             </div>
@@ -216,7 +216,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-golf-green-600 hover:bg-golf-green-700 text-white py-3 rounded-lg font-semibold transition-colors disabled:opacity-50"
+              className="w-full bg-masters-yellow hover:bg-masters-yellow-dark text-masters-green-dark py-3 rounded-lg font-semibold transition-colors disabled:opacity-50"
             >
               {loading ? 'Creating account...' : 'Create account'}
             </button>
@@ -226,7 +226,7 @@ export default function RegisterPage() {
             <span className="text-gray-600">Already have an account? </span>
             <Link
               href="/login"
-              className="text-golf-green-600 hover:text-golf-green-700 font-medium"
+              className="text-masters-green hover:text-masters-green-dark font-medium"
             >
               Sign in
             </Link>

@@ -35,7 +35,7 @@ export default function CoursesPage() {
     return (
       <div className="container mx-auto px-4 py-12">
         <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-4 border-golf-green-600 border-t-transparent"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-4 border-masters-green border-t-transparent"></div>
         </div>
       </div>
     );
@@ -43,10 +43,10 @@ export default function CoursesPage() {
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      <div className="bg-golf-green-700 text-white py-12">
+      <div className="bg-masters-green text-white py-12">
         <div className="container mx-auto px-4">
           <h1 className="text-4xl font-bold mb-4">Browse Golf Courses</h1>
-          <p className="text-golf-green-100 text-lg">
+          <p className="text-masters-green-light text-lg">
             Find and book tee times at the best courses near you
           </p>
         </div>
@@ -61,7 +61,7 @@ export default function CoursesPage() {
               placeholder="Search by course name or location..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-4 py-3 pl-12 rounded-lg border border-gray-300 focus:ring-2 focus:ring-golf-green-500 focus:border-transparent"
+              className="w-full px-4 py-3 pl-12 rounded-lg border border-gray-300 focus:ring-2 focus:ring-masters-green focus:border-transparent"
             />
             <svg
               className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
@@ -103,7 +103,7 @@ function CourseCard({ course }: { course: Course }) {
 
   return (
     <div className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow overflow-hidden">
-      <div className="h-48 bg-gradient-to-br from-golf-green-400 to-golf-green-600 relative">
+      <div className="h-48 bg-gradient-to-br from-masters-green to-masters-green-light relative">
         {course.imageUrl && (
           <img
             src={course.imageUrl}
@@ -111,7 +111,7 @@ function CourseCard({ course }: { course: Course }) {
             className="w-full h-full object-cover"
           />
         )}
-        <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full text-sm font-semibold text-golf-green-700">
+        <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full text-sm font-semibold text-masters-green">
           {course.holes} Holes
         </div>
       </div>
@@ -119,7 +119,7 @@ function CourseCard({ course }: { course: Course }) {
       <div className="p-6">
         <div className="flex items-start justify-between mb-2">
           <h3 className="text-xl font-semibold text-gray-900">{course.name}</h3>
-          <div className="flex items-center text-yellow-500">
+          <div className="flex items-center text-masters-yellow">
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
               <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
             </svg>
@@ -156,17 +156,25 @@ function CourseCard({ course }: { course: Course }) {
 
         <div className="flex items-center justify-between pt-4 border-t">
           <div>
-            <span className="text-2xl font-bold text-golf-green-600">
+            <span className="text-2xl font-bold text-masters-green">
               ${course.greenFee}
             </span>
             <span className="text-gray-500 text-sm">/person</span>
           </div>
-          <Link
-            href={`/book?courseId=${course.id}`}
-            className="bg-golf-green-600 hover:bg-golf-green-700 text-white px-6 py-2 rounded-lg font-medium transition-colors"
-          >
-            Book Now
-          </Link>
+          <div className="flex gap-2">
+            <Link
+              href={`/courses/${course.id}`}
+              className="border border-masters-green text-masters-green hover:bg-masters-green hover:text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm"
+            >
+              Details
+            </Link>
+            <Link
+              href={`/book?courseId=${course.id}`}
+              className="bg-masters-yellow hover:bg-masters-yellow-dark text-masters-green-dark px-4 py-2 rounded-lg font-medium transition-colors text-sm"
+            >
+              Book Now
+            </Link>
+          </div>
         </div>
       </div>
     </div>

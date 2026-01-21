@@ -86,7 +86,7 @@ function DashboardContent() {
     return (
       <div className="container mx-auto px-4 py-12">
         <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-4 border-golf-green-600 border-t-transparent"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-4 border-masters-green border-t-transparent"></div>
         </div>
       </div>
     );
@@ -106,7 +106,7 @@ function DashboardContent() {
             </div>
             <Link
               href="/courses"
-              className="bg-golf-green-600 hover:bg-golf-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+              className="bg-masters-yellow hover:bg-masters-yellow-dark text-masters-green-dark px-6 py-3 rounded-lg font-medium transition-colors"
             >
               Book New Tee Time
             </Link>
@@ -114,7 +114,7 @@ function DashboardContent() {
 
           {/* Success Message */}
           {showSuccess && (
-            <div className="bg-golf-green-50 border border-golf-green-200 text-golf-green-800 px-6 py-4 rounded-lg mb-6 flex items-center">
+            <div className="bg-masters-green/10 border border-masters-green/20 text-masters-green px-6 py-4 rounded-lg mb-6 flex items-center">
               <svg
                 className="w-6 h-6 mr-3"
                 fill="none"
@@ -158,7 +158,7 @@ function DashboardContent() {
                 </p>
                 <Link
                   href="/courses"
-                  className="inline-block text-golf-green-600 hover:text-golf-green-700 font-medium"
+                  className="inline-block text-masters-green hover:text-masters-green-dark font-medium"
                 >
                   Browse courses and book a tee time
                 </Link>
@@ -215,8 +215,8 @@ function BookingCard({
   const playerNames = JSON.parse(booking.playerNames || '[]');
 
   const statusColors: Record<string, string> = {
-    confirmed: 'bg-golf-green-100 text-golf-green-800',
-    pending: 'bg-yellow-100 text-yellow-800',
+    confirmed: 'bg-masters-green/10 text-masters-green',
+    pending: 'bg-masters-yellow/20 text-masters-yellow-dark',
     cancelled: 'bg-red-100 text-red-800',
     completed: 'bg-gray-100 text-gray-800',
     'no-show': 'bg-red-100 text-red-800',
@@ -317,7 +317,7 @@ function BookingCard({
           </div>
 
           <div className="flex flex-col items-end gap-2">
-            <div className="text-2xl font-bold text-golf-green-600">
+            <div className="text-2xl font-bold text-masters-green">
               ${booking.totalPrice.toFixed(2)}
             </div>
             {booking.includeCart && (
@@ -332,6 +332,14 @@ function BookingCard({
                 {cancelling ? 'Cancelling...' : 'Cancel Booking'}
               </button>
             )}
+            {isPast && booking.status !== 'cancelled' && booking.course && (
+              <Link
+                href={`/courses/${booking.courseId}`}
+                className="text-masters-green hover:text-masters-green-dark text-sm font-medium mt-2"
+              >
+                Leave a Review
+              </Link>
+            )}
           </div>
         </div>
       </div>
@@ -344,7 +352,7 @@ export default function DashboardPage() {
     <Suspense fallback={
       <div className="container mx-auto px-4 py-12">
         <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-4 border-golf-green-600 border-t-transparent"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-4 border-masters-green border-t-transparent"></div>
         </div>
       </div>
     }>

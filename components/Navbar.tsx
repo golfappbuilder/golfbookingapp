@@ -7,12 +7,12 @@ export default function Navbar() {
   const { user, isAuthenticated, logout } = useAuth();
 
   return (
-    <nav className="bg-golf-green-700 text-white shadow-lg">
+    <nav className="bg-masters-green text-white shadow-lg">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center space-x-2">
             <svg
-              className="w-8 h-8"
+              className="w-8 h-8 text-masters-yellow"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -25,13 +25,13 @@ export default function Navbar() {
                 d="M12 2v4m0 12v4m-10-10h4m12 0h4m-2.93-7.07l-2.83 2.83m-8.48 8.48l-2.83 2.83m14.14 0l-2.83-2.83M6.34 6.34L3.51 3.51"
               />
             </svg>
-            <span className="text-xl font-bold">Golf Booking</span>
+            <span className="font-pacifico text-2xl text-masters-yellow">Breakfast Ball</span>
           </Link>
 
           <div className="hidden md:flex items-center space-x-6">
             <Link
               href="/courses"
-              className="hover:text-golf-green-200 transition-colors"
+              className="hover:text-masters-yellow transition-colors"
             >
               Browse Courses
             </Link>
@@ -40,17 +40,17 @@ export default function Navbar() {
               <>
                 <Link
                   href="/dashboard"
-                  className="hover:text-golf-green-200 transition-colors"
+                  className="hover:text-masters-yellow transition-colors"
                 >
                   My Bookings
                 </Link>
                 <div className="flex items-center space-x-4">
-                  <span className="text-golf-green-200">
+                  <span className="text-masters-green-light">
                     Hi, {user?.firstName}
                   </span>
                   <button
                     onClick={logout}
-                    className="bg-golf-green-600 hover:bg-golf-green-500 px-4 py-2 rounded-lg transition-colors"
+                    className="bg-masters-yellow hover:bg-masters-yellow-dark text-masters-green-dark px-4 py-2 rounded-lg transition-colors font-medium"
                   >
                     Logout
                   </button>
@@ -60,13 +60,13 @@ export default function Navbar() {
               <div className="flex items-center space-x-4">
                 <Link
                   href="/login"
-                  className="hover:text-golf-green-200 transition-colors"
+                  className="hover:text-masters-yellow transition-colors"
                 >
                   Login
                 </Link>
                 <Link
                   href="/register"
-                  className="bg-white text-golf-green-700 hover:bg-golf-green-100 px-4 py-2 rounded-lg transition-colors font-medium"
+                  className="bg-masters-yellow text-masters-green-dark hover:bg-masters-yellow-dark px-4 py-2 rounded-lg transition-colors font-medium"
                 >
                   Sign Up
                 </Link>
@@ -78,7 +78,7 @@ export default function Navbar() {
           <div className="md:hidden">
             <Link
               href={isAuthenticated ? '/dashboard' : '/login'}
-              className="bg-golf-green-600 hover:bg-golf-green-500 px-4 py-2 rounded-lg transition-colors"
+              className="bg-masters-yellow hover:bg-masters-yellow-dark text-masters-green-dark px-4 py-2 rounded-lg transition-colors font-medium"
             >
               {isAuthenticated ? 'Dashboard' : 'Login'}
             </Link>

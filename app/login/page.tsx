@@ -40,9 +40,9 @@ function LoginContent() {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center space-x-2 text-golf-green-600">
+          <Link href="/" className="inline-flex items-center space-x-2">
             <svg
-              className="w-10 h-10"
+              className="w-10 h-10 text-masters-yellow"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -55,7 +55,7 @@ function LoginContent() {
                 d="M12 2v4m0 12v4m-10-10h4m12 0h4"
               />
             </svg>
-            <span className="text-2xl font-bold">Golf Booking</span>
+            <span className="font-pacifico text-3xl text-masters-green">Breakfast Ball</span>
           </Link>
           <h1 className="mt-6 text-3xl font-bold text-gray-900">Welcome back</h1>
           <p className="mt-2 text-gray-600">Sign in to your account</p>
@@ -82,7 +82,7 @@ function LoginContent() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-golf-green-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-masters-green focus:border-transparent"
                 placeholder="you@example.com"
               />
             </div>
@@ -100,7 +100,7 @@ function LoginContent() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-golf-green-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-masters-green focus:border-transparent"
                 placeholder="Enter your password"
               />
             </div>
@@ -108,7 +108,7 @@ function LoginContent() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-golf-green-600 hover:bg-golf-green-700 text-white py-3 rounded-lg font-semibold transition-colors disabled:opacity-50"
+              className="w-full bg-masters-yellow hover:bg-masters-yellow-dark text-masters-green-dark py-3 rounded-lg font-semibold transition-colors disabled:opacity-50"
             >
               {loading ? 'Signing in...' : 'Sign in'}
             </button>
@@ -118,7 +118,7 @@ function LoginContent() {
             <span className="text-gray-600">Don&apos;t have an account? </span>
             <Link
               href="/register"
-              className="text-golf-green-600 hover:text-golf-green-700 font-medium"
+              className="text-masters-green hover:text-masters-green-dark font-medium"
             >
               Sign up
             </Link>
@@ -145,7 +145,7 @@ export default function LoginPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-golf-green-600 border-t-transparent"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-masters-green border-t-transparent"></div>
       </div>
     }>
       <LoginContent />

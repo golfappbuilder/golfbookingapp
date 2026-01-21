@@ -7,18 +7,33 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        pacifico: ['var(--font-pacifico)'],
+      },
       colors: {
+        // Masters color palette
+        'masters-green': {
+          DEFAULT: '#006747',
+          light: '#1a8a6a',
+          dark: '#004d35',
+        },
+        'masters-yellow': {
+          DEFAULT: '#FFC72C',
+          light: '#FFD85C',
+          dark: '#E6B025',
+        },
+        // Keep golf-green for backwards compatibility, but mapped to masters colors
         'golf-green': {
-          50: '#f0fdf4',
-          100: '#dcfce7',
-          200: '#bbf7d0',
-          300: '#86efac',
-          400: '#4ade80',
-          500: '#22c55e',
-          600: '#16a34a',
-          700: '#15803d',
-          800: '#166534',
-          900: '#14532d',
+          50: '#e6f3ef',
+          100: '#ccebe0',
+          200: '#99d7c1',
+          300: '#66c3a2',
+          400: '#33af83',
+          500: '#009b64',
+          600: '#006747',
+          700: '#004d35',
+          800: '#003324',
+          900: '#001a12',
         },
       },
     },

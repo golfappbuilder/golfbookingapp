@@ -80,3 +80,19 @@ export interface RegisterData {
   lastName: string;
   phone?: string;
 }
+
+export interface Review {
+  id: string;
+  courseId: string;
+  reviewerName: string;
+  datePlayed: string;
+  ratings: {
+    conditions: number;
+    paceOfPlay: number;
+    value: number;
+    overall: number;
+  };
+  whatWorked: string;
+  whatDidntWork: string;
+  createdAt: string;
+}

@@ -4,44 +4,52 @@ export default function Home() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-golf-green-800 to-golf-green-600 text-white py-24">
-        <div className="container mx-auto px-4">
+      <section className="relative bg-masters-green text-white py-24 overflow-hidden">
+        <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-3xl">
-            <h1 className="text-5xl font-bold mb-6">
-              Book Your Perfect Tee Time
+            <h1 className="mb-6">
+              <span className="font-pacifico text-6xl md:text-7xl text-masters-yellow drop-shadow-lg">
+                Breakfast Ball
+              </span>
+              <span className="block text-2xl md:text-3xl font-semibold mt-4 text-white">
+                Book Your Perfect Tee Time
+              </span>
             </h1>
-            <p className="text-xl text-golf-green-100 mb-8">
+            <p className="text-xl text-masters-green-light mb-8">
               Discover and book tee times at the best golf courses. Easy
               scheduling, instant confirmation, and the best prices guaranteed.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/courses"
-                className="bg-white text-golf-green-700 hover:bg-golf-green-50 px-8 py-4 rounded-lg font-semibold text-lg transition-colors text-center"
+                className="bg-masters-yellow hover:bg-masters-yellow-dark text-masters-green-dark px-8 py-4 rounded-lg font-semibold text-lg transition-colors text-center shadow-lg"
               >
                 Browse Courses
               </Link>
               <Link
                 href="/register"
-                className="border-2 border-white text-white hover:bg-white hover:text-golf-green-700 px-8 py-4 rounded-lg font-semibold text-lg transition-colors text-center"
+                className="border-2 border-masters-yellow text-masters-yellow hover:bg-masters-yellow hover:text-masters-green-dark px-8 py-4 rounded-lg font-semibold text-lg transition-colors text-center"
               >
                 Create Account
               </Link>
             </div>
           </div>
         </div>
+        {/* Golf Ball decorative element */}
         <div className="absolute bottom-0 right-0 w-1/3 h-full opacity-10">
           <svg viewBox="0 0 100 100" className="h-full w-full">
             <circle cx="50" cy="50" r="45" fill="white" />
           </svg>
         </div>
+        {/* Subtle grass pattern at bottom */}
+        <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-masters-green-dark to-transparent"></div>
       </section>
 
       {/* Features Section */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-900">
-            Why Choose Golf Booking?
+            Why Choose <span className="text-masters-green">Breakfast Ball</span>?
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             <FeatureCard
@@ -106,7 +114,7 @@ export default function Home() {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-20">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-900">
             How It Works
@@ -137,15 +145,15 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-golf-green-700 text-white py-16">
+      <section className="bg-masters-green text-white py-16">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Play?</h2>
-          <p className="text-xl text-golf-green-100 mb-8">
+          <p className="text-xl text-masters-green-light mb-8">
             Join thousands of golfers who book their tee times with us.
           </p>
           <Link
             href="/courses"
-            className="inline-block bg-white text-golf-green-700 hover:bg-golf-green-50 px-8 py-4 rounded-lg font-semibold text-lg transition-colors"
+            className="inline-block bg-masters-yellow hover:bg-masters-yellow-dark text-masters-green-dark px-8 py-4 rounded-lg font-semibold text-lg transition-colors shadow-lg"
           >
             Find a Course Near You
           </Link>
@@ -165,8 +173,8 @@ function FeatureCard({
   description: string;
 }) {
   return (
-    <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-      <div className="text-golf-green-600 mb-4">{icon}</div>
+    <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+      <div className="text-masters-green mb-4">{icon}</div>
       <h3 className="text-xl font-semibold mb-2 text-gray-900">{title}</h3>
       <p className="text-gray-600">{description}</p>
     </div>
@@ -184,7 +192,7 @@ function StepCard({
 }) {
   return (
     <div className="text-center">
-      <div className="w-16 h-16 bg-golf-green-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+      <div className="w-16 h-16 bg-masters-yellow text-masters-green-dark rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-md">
         {number}
       </div>
       <h3 className="text-lg font-semibold mb-2 text-gray-900">{title}</h3>
