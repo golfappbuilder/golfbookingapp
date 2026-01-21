@@ -1,8 +1,49 @@
 'use client';
 
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function Home() {
+  const router = useRouter();
+  const [tripPrompt, setTripPrompt] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handlePlanTrip = async () => {
+    if (!tripPrompt.trim()) {
+      setError('Please describe your trip');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+
+    try {
+      const res = await fetch('/api/trips', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: tripPrompt }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || 'Failed to plan trip');
+      }
+
+      const trip = await res.json();
+      router.push(`/trip/${trip.id}`);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleExampleClick = (example: string) => {
+    setTripPrompt(example);
+  };
+
   return (
     <div>
       {/* Hero Section */}
@@ -64,26 +105,56 @@ export default function Home() {
             <div className="bg-white rounded-xl shadow-lg p-6">
               <div className="relative">
                 <textarea
-                  placeholder="12 guys, Cape Cod, 4 days, bachelor party..."
+                  value={tripPrompt}
+                  onChange={(e) => {
+                    setTripPrompt(e.target.value);
+                    setError('');
+                  }}
+                  placeholder="8 guys, Cape Cod, 3 days, bachelor party..."
                   className="w-full h-32 px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-masters-green focus:border-transparent resize-none text-gray-900 placeholder-gray-400"
                 />
-                <button className="absolute bottom-4 right-4 bg-masters-green hover:bg-masters-green-dark text-white px-6 py-2 rounded-lg font-semibold transition-colors flex items-center gap-2">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                  Plan My Trip
+                <button
+                  onClick={handlePlanTrip}
+                  disabled={loading}
+                  className="absolute bottom-4 right-4 bg-masters-green hover:bg-masters-green-dark disabled:bg-gray-400 text-white px-6 py-2 rounded-lg font-semibold transition-colors flex items-center gap-2"
+                >
+                  {loading ? (
+                    <>
+                      <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
+                      Planning...
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      </svg>
+                      Plan My Trip
+                    </>
+                  )}
                 </button>
               </div>
+              {error && (
+                <p className="text-red-600 text-sm mt-2">{error}</p>
+              )}
               <div className="mt-4 flex flex-wrap gap-2">
                 <span className="text-xs text-gray-500">Try:</span>
-                <button className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full transition-colors">
-                  Weekend getaway, Scottsdale, 4 buddies
+                <button
+                  onClick={() => handleExampleClick('Bachelor party, Cape Cod, 8 guys, 3 days')}
+                  className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full transition-colors"
+                >
+                  Bachelor party, Cape Cod, 8 guys, 3 days
                 </button>
-                <button className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full transition-colors">
-                  Father-son trip, Pinehurst, 3 days
+                <button
+                  onClick={() => handleExampleClick('Father-son trip, Maine, 4 people, 2 rounds')}
+                  className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full transition-colors"
+                >
+                  Father-son trip, Maine, 4 people, 2 rounds
                 </button>
-                <button className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full transition-colors">
-                  Corporate outing, 20 people, California
+                <button
+                  onClick={() => handleExampleClick('Corporate outing, Boston area, 16 people')}
+                  className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full transition-colors"
+                >
+                  Corporate outing, Boston area, 16 people
                 </button>
               </div>
             </div>
