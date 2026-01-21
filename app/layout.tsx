@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, Pacifico } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 const inter = Inter({ subsets: ['latin'] });
 const pacifico = Pacifico({
@@ -11,8 +12,8 @@ const pacifico = Pacifico({
 });
 
 export const metadata: Metadata = {
-  title: 'Breakfast Ball - Book Your Tee Time',
-  description: 'Book tee times at the best golf courses near you',
+  title: 'Breakfast Ball - Plan Epic Golf Trips',
+  description: 'Plan epic golf trips with your crew. AI-powered itineraries, course reviews, and easy sharing.',
 };
 
 export default function RootLayout({
@@ -25,13 +26,7 @@ export default function RootLayout({
       <body className={`${inter.className} ${pacifico.variable}`}>
         <Navbar />
         <main className="min-h-screen">{children}</main>
-        <footer className="bg-masters-green text-white py-8">
-          <div className="container mx-auto px-4 text-center">
-            <p className="text-masters-green-light">
-              &copy; {new Date().getFullYear()} Breakfast Ball. All rights reserved.
-            </p>
-          </div>
-        </footer>
+        <Footer />
       </body>
     </html>
   );
