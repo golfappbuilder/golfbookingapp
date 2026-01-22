@@ -252,24 +252,25 @@ export const mockTrips: Array<{
   nights: number;
   tripType: string;
   courses: typeof mockCourses;
-  lodging: typeof mockLodging[0] | null;
   itinerary: Array<{ day: number; activities: string[] }>;
   createdAt: Date;
 }> = [];
 
-// User-submitted lodging recommendations
+// User-submitted lodging recommendations (Where to Stay section)
 export const lodgingSubmissions: Array<{
   id: string;
   email: string;
   lodgingName: string;
   city: string;
   state: string;
+  region: 'Cape Cod' | 'Boston Area' | 'Maine' | 'Vermont' | 'New Hampshire' | 'South Shore' | 'Other';
   lodgingType: 'airbnb' | 'vrbo' | 'hotel' | 'house_rental' | 'other';
   sleeps: number;
-  pricePerNight: string;
-  recommend: 'yes' | 'no' | 'maybe';
+  linkUrl: string;
   tips: string;
   nearbyCourses: string[];
+  recommend: boolean;
+  canFeature: boolean;
   createdAt: Date;
 }> = [];
 

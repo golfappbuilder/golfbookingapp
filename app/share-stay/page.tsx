@@ -4,6 +4,16 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { mockCourses } from '@/lib/mock-data';
 
+const regions = [
+  'Cape Cod',
+  'Boston Area',
+  'South Shore',
+  'Maine',
+  'New Hampshire',
+  'Vermont',
+  'Other',
+];
+
 export default function ShareStayPage() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -14,12 +24,14 @@ export default function ShareStayPage() {
     lodgingName: '',
     city: '',
     state: '',
+    region: '',
     lodgingType: '',
     sleeps: '',
-    pricePerNight: '',
-    recommend: '',
+    linkUrl: '',
+    recommend: true,
     tips: '',
     nearbyCourses: [] as string[],
+    canFeature: true,
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -177,11 +189,32 @@ export default function ShareStayPage() {
                 </div>
               </div>
 
+              {/* Region */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Region <span className="text-red-500">*</span>
+                </label>
+                <select
+                  required
+                  value={formData.region}
+                  onChange={(e) => setFormData({ ...formData, region: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-masters-green focus:border-transparent"
+                >
+                  <option value="">Select region...</option>
+                  {regions.map((region) => (
+                    <option key={region} value={region}>{region}</option>
+                  ))}
+                </select>
+              </div>
+
               {/* Type & Sleeps */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Type</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Type <span className="text-red-500">*</span>
+                  </label>
                   <select
+                    required
                     value={formData.lodgingType}
                     onChange={(e) => setFormData({ ...formData, lodgingType: e.target.value })}
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-masters-green focus:border-transparent"
@@ -195,9 +228,12 @@ export default function ShareStayPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Sleeps</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Sleeps <span className="text-red-500">*</span>
+                  </label>
                   <input
                     type="number"
+                    required
                     min="1"
                     max="50"
                     value={formData.sleeps}
@@ -208,18 +244,19 @@ export default function ShareStayPage() {
                 </div>
               </div>
 
-              {/* Price */}
+              {/* Link URL */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Approximate Price Per Night
+                  Listing Link
                 </label>
                 <input
-                  type="text"
-                  value={formData.pricePerNight}
-                  onChange={(e) => setFormData({ ...formData, pricePerNight: e.target.value })}
-                  placeholder="e.g., $300-400 or 'varies by season'"
+                  type="url"
+                  value={formData.linkUrl}
+                  onChange={(e) => setFormData({ ...formData, linkUrl: e.target.value })}
+                  placeholder="Paste Airbnb, VRBO, or hotel website URL"
                   className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-masters-green focus:border-transparent"
                 />
+                <p className="text-gray-500 text-xs mt-1">Optional - helps other golfers find the same spot</p>
               </div>
 
               {/* Recommend */}
@@ -228,19 +265,26 @@ export default function ShareStayPage() {
                   Would you recommend for a golf trip?
                 </label>
                 <div className="flex gap-4">
-                  {['yes', 'maybe', 'no'].map((option) => (
-                    <label key={option} className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="radio"
-                        name="recommend"
-                        value={option}
-                        checked={formData.recommend === option}
-                        onChange={(e) => setFormData({ ...formData, recommend: e.target.value })}
-                        className="w-4 h-4 text-masters-green focus:ring-masters-green"
-                      />
-                      <span className="capitalize">{option}</span>
-                    </label>
-                  ))}
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="recommend"
+                      checked={formData.recommend === true}
+                      onChange={() => setFormData({ ...formData, recommend: true })}
+                      className="w-4 h-4 text-masters-green focus:ring-masters-green"
+                    />
+                    <span>Yes</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="recommend"
+                      checked={formData.recommend === false}
+                      onChange={() => setFormData({ ...formData, recommend: false })}
+                      className="w-4 h-4 text-masters-green focus:ring-masters-green"
+                    />
+                    <span>No</span>
+                  </label>
                 </div>
               </div>
 
@@ -283,6 +327,25 @@ export default function ShareStayPage() {
                   placeholder="e.g., Great for groups, 5 min from the course, has a putting green in the backyard..."
                   className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-masters-green focus:border-transparent"
                 />
+              </div>
+
+              {/* Can Feature */}
+              <div className="bg-masters-green/5 border border-masters-green/20 rounded-xl p-4">
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={formData.canFeature}
+                    onChange={(e) => setFormData({ ...formData, canFeature: e.target.checked })}
+                    className="w-5 h-5 text-masters-green focus:ring-masters-green rounded mt-0.5"
+                  />
+                  <div>
+                    <span className="font-semibold text-gray-900">Can we feature this on Breakfast Ball?</span>
+                    <p className="text-gray-500 text-sm mt-1">
+                      If checked, your lodging recommendation may be shown to other golfers planning trips.
+                      Your email will never be shared.
+                    </p>
+                  </div>
+                </label>
               </div>
 
               {error && (

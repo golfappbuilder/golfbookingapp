@@ -10,12 +10,14 @@ export async function POST(request: Request) {
       lodgingName,
       city,
       state,
+      region,
       lodgingType,
       sleeps,
-      pricePerNight,
-      recommend,
+      linkUrl,
       tips,
       nearbyCourses,
+      recommend,
+      canFeature,
     } = data;
 
     // Validation
@@ -32,12 +34,14 @@ export async function POST(request: Request) {
       lodgingName,
       city,
       state,
+      region: region || 'Other',
       lodgingType: lodgingType || 'other',
       sleeps: parseInt(sleeps) || 4,
-      pricePerNight: pricePerNight || 'Not specified',
-      recommend: recommend || 'maybe',
+      linkUrl: linkUrl || '',
       tips: tips || '',
       nearbyCourses: nearbyCourses || [],
+      recommend: recommend === true || recommend === 'yes',
+      canFeature: canFeature === true,
       createdAt: new Date(),
     };
 
@@ -50,6 +54,40 @@ export async function POST(request: Request) {
   }
 }
 
-export async function GET() {
-  return NextResponse.json(lodgingSubmissions);
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+
+  let results = lodgingSubmissions.filter(s => s.canFeature);
+
+  // Filter by region
+  const region = searchParams.get('region');
+  if (region && region !== 'all') {
+    results = results.filter(s => s.region === region);
+  }
+
+  // Filter by group size
+  const groupSize = searchParams.get('groupSize');
+  if (groupSize) {
+    if (groupSize === '4-8') {
+      results = results.filter(s => s.sleeps >= 4 && s.sleeps <= 8);
+    } else if (groupSize === '8-12') {
+      results = results.filter(s => s.sleeps > 8 && s.sleeps <= 12);
+    } else if (groupSize === '12+') {
+      results = results.filter(s => s.sleeps > 12);
+    }
+  }
+
+  // Filter by type
+  const type = searchParams.get('type');
+  if (type && type !== 'all') {
+    results = results.filter(s => s.lodgingType === type);
+  }
+
+  // Only show recommended lodging
+  const recommendedOnly = searchParams.get('recommended');
+  if (recommendedOnly === 'true') {
+    results = results.filter(s => s.recommend);
+  }
+
+  return NextResponse.json(results);
 }

@@ -4,10 +4,21 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { mockCourses } from '@/lib/mock-data';
 
+const regions = [
+  'Cape Cod',
+  'Boston Area',
+  'South Shore',
+  'Maine',
+  'New Hampshire',
+  'Vermont',
+  'Other',
+];
+
 export default function ShareTripPage() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showLodgingDetails, setShowLodgingDetails] = useState(false);
 
   const [formData, setFormData] = useState({
     email: '',
@@ -21,6 +32,17 @@ export default function ShareTripPage() {
     suggestedCourses: '',
     coursesPlayed: [] as string[],
     lodgingUsed: '',
+    // Detailed lodging fields
+    lodgingName: '',
+    lodgingCity: '',
+    lodgingState: '',
+    lodgingRegion: '',
+    lodgingType: '',
+    lodgingSleeps: '',
+    lodgingLink: '',
+    lodgingTips: '',
+    lodgingRecommend: true,
+    lodgingCanFeature: false,
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -29,6 +51,7 @@ export default function ShareTripPage() {
     setError('');
 
     try {
+      // Submit trip review
       const res = await fetch('/api/trip-reviews', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -38,6 +61,28 @@ export default function ShareTripPage() {
       if (!res.ok) {
         const data = await res.json();
         throw new Error(data.error || 'Failed to submit');
+      }
+
+      // If lodging details were provided, also submit to lodging-submissions
+      if (showLodgingDetails && formData.lodgingName && formData.lodgingCity && formData.lodgingState) {
+        await fetch('/api/lodging-submissions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: formData.email,
+            lodgingName: formData.lodgingName,
+            city: formData.lodgingCity,
+            state: formData.lodgingState,
+            region: formData.lodgingRegion,
+            lodgingType: formData.lodgingType,
+            sleeps: formData.lodgingSleeps,
+            linkUrl: formData.lodgingLink,
+            tips: formData.lodgingTips,
+            nearbyCourses: formData.coursesPlayed,
+            recommend: formData.lodgingRecommend,
+            canFeature: formData.lodgingCanFeature,
+          }),
+        });
       }
 
       setSubmitted(true);
@@ -309,18 +354,191 @@ export default function ShareTripPage() {
                 />
               </div>
 
-              {/* Lodging Used */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Where did you stay?
-                </label>
-                <input
-                  type="text"
-                  value={formData.lodgingUsed}
-                  onChange={(e) => setFormData({ ...formData, lodgingUsed: e.target.value })}
-                  placeholder="e.g., Airbnb in Brewster, Ocean Edge Resort"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-masters-green focus:border-transparent"
-                />
+              {/* Lodging Section */}
+              <div className="border border-gray-200 rounded-xl overflow-hidden">
+                <div className="bg-gray-50 p-4">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Where did your group stay?
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.lodgingUsed}
+                    onChange={(e) => setFormData({ ...formData, lodgingUsed: e.target.value })}
+                    placeholder="e.g., Airbnb in Brewster, Ocean Edge Resort"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-masters-green focus:border-transparent bg-white"
+                  />
+                </div>
+
+                {/* Toggle for detailed lodging */}
+                <button
+                  type="button"
+                  onClick={() => setShowLodgingDetails(!showLodgingDetails)}
+                  className="w-full p-3 bg-masters-green/5 hover:bg-masters-green/10 text-masters-green font-medium text-sm flex items-center justify-center gap-2 transition-colors"
+                >
+                  <svg
+                    className={`w-4 h-4 transition-transform ${showLodgingDetails ? 'rotate-180' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                  {showLodgingDetails ? 'Hide lodging details' : 'Share lodging details (helps other golfers!)'}
+                </button>
+
+                {/* Expanded lodging details */}
+                {showLodgingDetails && (
+                  <div className="p-4 space-y-4 border-t border-gray-200">
+                    <p className="text-gray-600 text-sm">
+                      Share more about where you stayed so other golfers can find it too!
+                    </p>
+
+                    {/* Lodging Name */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Lodging Name
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.lodgingName}
+                        onChange={(e) => setFormData({ ...formData, lodgingName: e.target.value })}
+                        placeholder="e.g., Beach House on Main St"
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-masters-green focus:border-transparent text-sm"
+                      />
+                    </div>
+
+                    {/* City, State */}
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
+                        <input
+                          type="text"
+                          value={formData.lodgingCity}
+                          onChange={(e) => setFormData({ ...formData, lodgingCity: e.target.value })}
+                          placeholder="e.g., Brewster"
+                          className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-masters-green focus:border-transparent text-sm"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
+                        <select
+                          value={formData.lodgingState}
+                          onChange={(e) => setFormData({ ...formData, lodgingState: e.target.value })}
+                          className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-masters-green focus:border-transparent text-sm"
+                        >
+                          <option value="">Select...</option>
+                          <option value="MA">Massachusetts</option>
+                          <option value="ME">Maine</option>
+                          <option value="NH">New Hampshire</option>
+                          <option value="VT">Vermont</option>
+                          <option value="RI">Rhode Island</option>
+                          <option value="CT">Connecticut</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* Region & Type */}
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Region</label>
+                        <select
+                          value={formData.lodgingRegion}
+                          onChange={(e) => setFormData({ ...formData, lodgingRegion: e.target.value })}
+                          className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-masters-green focus:border-transparent text-sm"
+                        >
+                          <option value="">Select...</option>
+                          {regions.map((region) => (
+                            <option key={region} value={region}>{region}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
+                        <select
+                          value={formData.lodgingType}
+                          onChange={(e) => setFormData({ ...formData, lodgingType: e.target.value })}
+                          className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-masters-green focus:border-transparent text-sm"
+                        >
+                          <option value="">Select...</option>
+                          <option value="airbnb">Airbnb</option>
+                          <option value="vrbo">VRBO</option>
+                          <option value="hotel">Hotel</option>
+                          <option value="house_rental">House Rental</option>
+                          <option value="other">Other</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* Sleeps & Link */}
+                    <div className="grid grid-cols-3 gap-3">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Sleeps</label>
+                        <input
+                          type="number"
+                          min="1"
+                          max="50"
+                          value={formData.lodgingSleeps}
+                          onChange={(e) => setFormData({ ...formData, lodgingSleeps: e.target.value })}
+                          placeholder="8"
+                          className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-masters-green focus:border-transparent text-sm"
+                        />
+                      </div>
+                      <div className="col-span-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Listing Link</label>
+                        <input
+                          type="url"
+                          value={formData.lodgingLink}
+                          onChange={(e) => setFormData({ ...formData, lodgingLink: e.target.value })}
+                          placeholder="Paste Airbnb/VRBO URL"
+                          className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-masters-green focus:border-transparent text-sm"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Tips */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Tips for other golfers</label>
+                      <textarea
+                        value={formData.lodgingTips}
+                        onChange={(e) => setFormData({ ...formData, lodgingTips: e.target.value })}
+                        rows={2}
+                        placeholder="e.g., 10 mins from Cranberry Valley, huge deck for hanging out..."
+                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-masters-green focus:border-transparent text-sm"
+                      />
+                    </div>
+
+                    {/* Recommend */}
+                    <div className="flex items-center gap-4">
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={formData.lodgingRecommend}
+                          onChange={(e) => setFormData({ ...formData, lodgingRecommend: e.target.checked })}
+                          className="w-4 h-4 text-masters-green focus:ring-masters-green rounded"
+                        />
+                        <span className="text-sm text-gray-700">Would recommend</span>
+                      </label>
+                    </div>
+
+                    {/* Can Feature */}
+                    <div className="bg-masters-green/5 border border-masters-green/20 rounded-lg p-3">
+                      <label className="flex items-start gap-2 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={formData.lodgingCanFeature}
+                          onChange={(e) => setFormData({ ...formData, lodgingCanFeature: e.target.checked })}
+                          className="w-4 h-4 text-masters-green focus:ring-masters-green rounded mt-0.5"
+                        />
+                        <div>
+                          <span className="font-medium text-gray-900 text-sm">Can we feature this on Breakfast Ball?</span>
+                          <p className="text-gray-500 text-xs mt-0.5">
+                            Your lodging may be shown to other golfers. Email never shared.
+                          </p>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Suggested Courses */}
