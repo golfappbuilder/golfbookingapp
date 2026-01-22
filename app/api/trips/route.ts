@@ -93,7 +93,6 @@ function generateItinerary(
     if (courses[courseIndex] && day <= parsed.rounds + 1) {
       const course = courses[courseIndex];
       activities.push(`Golf at ${course.name} - ${course.city}, ${course.state}`);
-      activities.push(`Green fee: $${course.greenFee}/person | Cart: $${course.cartFee}`);
     }
 
     // Add evening activities based on trip type

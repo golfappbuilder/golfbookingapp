@@ -209,8 +209,6 @@ export default function TripResultsPage() {
                           </svg>
                           <span className="font-semibold text-gray-900">{course.rating}</span>
                         </div>
-                        <p className="text-masters-green font-bold text-lg mt-2">${course.greenFee}</p>
-                        <p className="text-gray-500 text-xs">per person</p>
                       </div>
                     </div>
                     <div className="mt-4 flex gap-2">
@@ -257,8 +255,6 @@ export default function TripResultsPage() {
                         </svg>
                         <span className="font-semibold text-gray-900">{trip.lodging.rating}</span>
                       </div>
-                      <p className="text-masters-green font-bold text-lg mt-2">${trip.lodging.pricePerNight}</p>
-                      <p className="text-gray-500 text-xs">per night</p>
                     </div>
                   </div>
                 </div>
@@ -268,43 +264,27 @@ export default function TripResultsPage() {
 
           {/* Sidebar */}
           <div className="space-y-6">
-            {/* Cost Estimate */}
+            {/* Share & Pricing Info */}
             <div className="bg-white rounded-xl shadow-sm p-6 sticky top-4">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Estimated Cost</h2>
-              <div className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Golf ({trip.courses.length} rounds)</span>
-                  <span className="font-medium">${trip.estimatedCost.golf.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Lodging ({trip.nights - 1} nights)</span>
-                  <span className="font-medium">${trip.estimatedCost.lodging.toLocaleString()}</span>
-                </div>
-                <div className="border-t pt-3 mt-3">
-                  <div className="flex justify-between">
-                    <span className="text-gray-900 font-semibold">Total (group)</span>
-                    <span className="text-masters-green font-bold text-xl">${trip.estimatedCost.total.toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between mt-1">
-                    <span className="text-gray-500 text-sm">Per person</span>
-                    <span className="text-gray-700 font-semibold">${trip.estimatedCost.perPerson.toLocaleString()}</span>
-                  </div>
-                </div>
-              </div>
+              <h2 className="text-xl font-bold text-gray-900 mb-4">Share This Trip</h2>
+              <p className="text-gray-600 text-sm mb-4">
+                Send this trip to your crew so everyone can see the plan!
+              </p>
+              <button
+                onClick={handleShare}
+                className="w-full bg-masters-green hover:bg-masters-green-dark text-white py-3 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2 mb-6"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                </svg>
+                {copied ? 'Link Copied!' : 'Copy Link'}
+              </button>
 
-              <div className="mt-6 pt-6 border-t">
-                <p className="text-gray-500 text-sm mb-4">
-                  Share this trip with your crew to start coordinating!
+              <div className="border-t pt-4">
+                <h3 className="font-semibold text-gray-900 mb-2">Pricing</h3>
+                <p className="text-gray-500 text-sm">
+                  Contact each course directly for current green fees and tee time availability.
                 </p>
-                <button
-                  onClick={handleShare}
-                  className="w-full bg-masters-green hover:bg-masters-green-dark text-white py-3 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                  </svg>
-                  {copied ? 'Link Copied!' : 'Share Trip'}
-                </button>
               </div>
             </div>
 

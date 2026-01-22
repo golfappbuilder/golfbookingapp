@@ -47,7 +47,7 @@ export default function CoursesPage() {
         <div className="container mx-auto px-4">
           <h1 className="text-4xl font-bold mb-4">Browse Golf Courses</h1>
           <p className="text-masters-green-light text-lg">
-            Find and book tee times at the best courses near you
+            Explore the best courses in New England
           </p>
         </div>
       </div>
@@ -155,26 +155,13 @@ function CourseCard({ course }: { course: Course }) {
         </div>
 
         <div className="flex items-center justify-between pt-4 border-t">
-          <div>
-            <span className="text-2xl font-bold text-masters-green">
-              ${course.greenFee}
-            </span>
-            <span className="text-gray-500 text-sm">/person</span>
-          </div>
-          <div className="flex gap-2">
-            <Link
-              href={`/courses/${course.id}`}
-              className="border border-masters-green text-masters-green hover:bg-masters-green hover:text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm"
-            >
-              Details
-            </Link>
-            <Link
-              href={`/book?courseId=${course.id}`}
-              className="bg-masters-yellow hover:bg-masters-yellow-dark text-masters-green-dark px-4 py-2 rounded-lg font-medium transition-colors text-sm"
-            >
-              Book Now
-            </Link>
-          </div>
+          <p className="text-gray-500 text-sm">Contact for rates</p>
+          <Link
+            href={`/courses/${course.id}`}
+            className="bg-masters-yellow hover:bg-masters-yellow-dark text-masters-green-dark px-4 py-2 rounded-lg font-medium transition-colors text-sm"
+          >
+            View Details
+          </Link>
         </div>
       </div>
     </div>
