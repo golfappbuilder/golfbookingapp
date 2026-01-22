@@ -20,16 +20,6 @@ interface Course {
   email: string;
 }
 
-interface Lodging {
-  id: string;
-  name: string;
-  city: string;
-  state: string;
-  pricePerNight: number;
-  amenities: string[];
-  rating: number;
-}
-
 interface Trip {
   id: string;
   prompt: string;
@@ -38,14 +28,7 @@ interface Trip {
   nights: number;
   tripType: string;
   courses: Course[];
-  lodging: Lodging | null;
   itinerary: Array<{ day: number; activities: string[] }>;
-  estimatedCost: {
-    golf: number;
-    lodging: number;
-    total: number;
-    perPerson: number;
-  };
   createdAt: string;
 }
 
@@ -231,35 +214,21 @@ export default function TripResultsPage() {
               </div>
             </div>
 
-            {/* Lodging */}
-            {trip.lodging && (
-              <div className="bg-white rounded-xl shadow-sm p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-6">Suggested Lodging</h2>
-                <div className="border border-gray-200 rounded-lg p-4">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h3 className="font-semibold text-gray-900">{trip.lodging.name}</h3>
-                      <p className="text-gray-500 text-sm">{trip.lodging.city}, {trip.lodging.state}</p>
-                      <div className="flex flex-wrap gap-2 mt-3">
-                        {trip.lodging.amenities.map((amenity, idx) => (
-                          <span key={idx} className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">
-                            {amenity}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="flex items-center gap-1 text-masters-yellow">
-                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        <span className="font-semibold text-gray-900">{trip.lodging.rating}</span>
-                      </div>
-                    </div>
-                  </div>
+            {/* Lodging Note */}
+            <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
+              <div className="flex items-start gap-3">
+                <svg className="w-6 h-6 text-blue-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-1">Lodging</h3>
+                  <p className="text-gray-600 text-sm">
+                    For lodging, we recommend checking Airbnb or VRBO for group rentals near your courses.
+                    Golf trip houses are often the best option for groups!
+                  </p>
                 </div>
               </div>
-            )}
+            </div>
           </div>
 
           {/* Sidebar */}

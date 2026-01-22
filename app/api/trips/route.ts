@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { mockCourses, mockLodging, mockTrips } from '@/lib/mock-data';
+import { mockCourses, mockTrips } from '@/lib/mock-data';
 
 // Parse the trip prompt to extract details
 function parsePrompt(prompt: string) {
@@ -75,8 +75,7 @@ function parsePrompt(prompt: string) {
 // Generate itinerary based on parsed details
 function generateItinerary(
   parsed: ReturnType<typeof parsePrompt>,
-  courses: typeof mockCourses,
-  lodging: typeof mockLodging[0] | null
+  courses: typeof mockCourses
 ) {
   const itinerary: Array<{ day: number; activities: string[] }> = [];
 
@@ -84,7 +83,7 @@ function generateItinerary(
     const activities: string[] = [];
 
     if (day === 1) {
-      activities.push('Check in to ' + (lodging?.name || 'your accommodation'));
+      activities.push('Arrive and check in to your accommodation');
       activities.push('Settle in and explore the area');
     }
 
@@ -155,29 +154,8 @@ export async function POST(request: Request) {
     // Limit to number of rounds needed
     courses = courses.slice(0, Math.max(parsed.rounds, 2));
 
-    // Find matching lodging
-    let lodging = mockLodging.find(l =>
-      l.region.toLowerCase().includes(parsed.region.toLowerCase()) ||
-      parsed.region.toLowerCase().includes(l.region.toLowerCase().split(' ')[0])
-    );
-
-    // Broader lodging match
-    if (!lodging && parsed.region.toLowerCase().includes('maine')) {
-      lodging = mockLodging.find(l => l.state === 'ME');
-    }
-
-    if (!lodging) {
-      lodging = mockLodging[0];
-    }
-
     // Generate itinerary
-    const itinerary = generateItinerary(parsed, courses, lodging);
-
-    // Calculate estimated costs
-    const golfCost = courses.reduce((sum, c) => sum + c.greenFee + c.cartFee, 0) * parsed.groupSize;
-    const lodgingCost = (lodging?.pricePerNight || 200) * (parsed.nights - 1) * Math.ceil(parsed.groupSize / 2);
-    const estimatedTotal = golfCost + lodgingCost;
-    const perPerson = Math.round(estimatedTotal / parsed.groupSize);
+    const itinerary = generateItinerary(parsed, courses);
 
     // Create trip record
     const tripId = `trip-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
@@ -190,14 +168,7 @@ export async function POST(request: Request) {
       nights: parsed.nights,
       tripType: parsed.tripType,
       courses,
-      lodging,
       itinerary,
-      estimatedCost: {
-        golf: golfCost,
-        lodging: lodgingCost,
-        total: estimatedTotal,
-        perPerson,
-      },
       createdAt: new Date(),
     };
 
