@@ -32,6 +32,16 @@ export default function Footer() {
                   My Trips
                 </Link>
               </li>
+              <li>
+                <Link href="/share-trip" className="text-masters-yellow hover:text-white transition-colors font-medium">
+                  Share Trip (Win $3K!)
+                </Link>
+              </li>
+              <li>
+                <Link href="/share-stay" className="text-gray-400 hover:text-masters-yellow transition-colors">
+                  Share Lodging
+                </Link>
+              </li>
             </ul>
           </div>
 

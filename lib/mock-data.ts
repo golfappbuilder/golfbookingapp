@@ -257,6 +257,39 @@ export const mockTrips: Array<{
   createdAt: Date;
 }> = [];
 
+// User-submitted lodging recommendations
+export const lodgingSubmissions: Array<{
+  id: string;
+  email: string;
+  lodgingName: string;
+  city: string;
+  state: string;
+  lodgingType: 'airbnb' | 'vrbo' | 'hotel' | 'house_rental' | 'other';
+  sleeps: number;
+  pricePerNight: string;
+  recommend: 'yes' | 'no' | 'maybe';
+  tips: string;
+  nearbyCourses: string[];
+  createdAt: Date;
+}> = [];
+
+// User-submitted trip reviews (giveaway entries)
+export const tripReviews: Array<{
+  id: string;
+  email: string;
+  destination: string;
+  tripDate: string;
+  groupSize: number;
+  overallRating: number;
+  wouldBookAgain: 'yes' | 'no';
+  whatWorked: string;
+  whatDidntWork: string;
+  suggestedCourses: string;
+  coursesPlayed: string[];
+  lodgingUsed: string;
+  createdAt: Date;
+}> = [];
+
 export function getCourseById(id: string) {
   return mockCourses.find(c => c.id === id);
 }
