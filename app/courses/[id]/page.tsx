@@ -74,7 +74,6 @@ export default function CourseDetailPage() {
     );
   }
 
-  const amenities = JSON.parse(course.amenities || '[]');
   const averageRatings = calculateAverageRatings(reviews);
 
   return (
@@ -91,9 +90,19 @@ export default function CourseDetailPage() {
             </svg>
             Back to Courses
           </Link>
-          <h1 className="text-4xl font-bold mb-2">{course.name}</h1>
+          <div className="flex items-center gap-3 mb-2">
+            <h1 className="text-4xl font-bold">{course.name}</h1>
+            {course.verified && (
+              <span className="bg-masters-yellow text-masters-green-dark px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-1">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+                Verified
+              </span>
+            )}
+          </div>
           <p className="text-masters-green-light text-lg">
-            {course.city}, {course.state}
+            {course.city}, {course.state} • {course.region}
           </p>
         </div>
       </div>
@@ -104,67 +113,43 @@ export default function CourseDetailPage() {
           <div className="lg:col-span-2 space-y-6">
             {/* Course Details Card */}
             <div className="bg-white rounded-xl shadow-sm p-6">
-              <h2 className="text-xl font-semibold mb-4 text-gray-900">Course Details</h2>
+              <h2 className="text-xl font-semibold mb-4 text-gray-900">About This Course</h2>
 
-              <div className="grid sm:grid-cols-2 gap-4 mb-6">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-masters-green/10 rounded-lg flex items-center justify-center">
-                    <svg className="w-5 h-5 text-masters-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-gray-500 text-sm">Holes</p>
-                    <p className="font-semibold">{course.holes} Holes</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-masters-green/10 rounded-lg flex items-center justify-center">
-                    <svg className="w-5 h-5 text-masters-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-gray-500 text-sm">Par</p>
-                    <p className="font-semibold">Par {course.par}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-masters-green/10 rounded-lg flex items-center justify-center">
-                    <svg className="w-5 h-5 text-masters-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-gray-500 text-sm">Yardage</p>
-                    <p className="font-semibold">{course.yardage.toLocaleString()} yards</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-masters-green/10 rounded-lg flex items-center justify-center">
-                    <svg className="w-5 h-5 text-masters-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-gray-500 text-sm">Hours</p>
-                    <p className="font-semibold">{course.openTime} - {course.closeTime}</p>
-                  </div>
-                </div>
+              <div className="flex flex-wrap gap-3 mb-6">
+                <span className="bg-masters-green/10 text-masters-green px-4 py-2 rounded-lg font-medium">
+                  {course.type}
+                </span>
+                <span className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-medium">
+                  {course.holes} Holes
+                </span>
               </div>
 
               <p className="text-gray-600 mb-6">{course.description}</p>
 
-              <h3 className="font-semibold mb-3 text-gray-900">Amenities</h3>
-              <div className="flex flex-wrap gap-2">
-                {amenities.map((amenity: string, idx: number) => (
-                  <span
-                    key={idx}
-                    className="bg-masters-green/10 text-masters-green px-3 py-1 rounded-full text-sm"
-                  >
-                    {amenity}
-                  </span>
-                ))}
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row gap-3">
+                <a
+                  href={course.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 inline-flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold transition-colors"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  View Current Rates
+                </a>
+                <a
+                  href={course.bookingUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 inline-flex items-center justify-center gap-2 bg-masters-green hover:bg-masters-green-dark text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  Book Tee Time
+                </a>
               </div>
             </div>
 
@@ -219,55 +204,32 @@ export default function CourseDetailPage() {
             </div>
           </div>
 
-          {/* Right Column - Course Info Card */}
+          {/* Right Column - Sidebar */}
           <div className="space-y-6">
             <div className="bg-white rounded-xl shadow-sm p-6 sticky top-4">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">Contact</h3>
-                <div className="flex items-center text-masters-yellow">
-                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                  <span className="ml-1 text-xl font-semibold text-gray-900">
-                    {course.rating.toFixed(1)}
-                  </span>
-                </div>
-              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Book This Course</h3>
 
-              <div className="space-y-3 mb-4">
-                <p className="text-gray-600 text-sm flex items-center">
-                  <svg className="w-4 h-4 mr-2 text-masters-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                  {course.phone}
-                </p>
-                <p className="text-gray-600 text-sm flex items-center">
-                  <svg className="w-4 h-4 mr-2 text-masters-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                  {course.email}
-                </p>
-              </div>
+              <p className="text-gray-600 text-sm mb-4">
+                Click below to view current rates and book your tee time directly with the course.
+              </p>
 
               <a
-                href={`mailto:${course.email}`}
-                className="block w-full bg-masters-yellow hover:bg-masters-yellow-dark text-masters-green-dark text-center px-6 py-3 rounded-lg font-semibold transition-colors mb-3"
+                href={course.bookingUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full bg-masters-green hover:bg-masters-green-dark text-white text-center px-6 py-3 rounded-lg font-semibold transition-colors mb-3"
               >
-                Contact for Rates
+                Book Tee Time
               </a>
 
-              <p className="text-gray-400 text-xs text-center">
-                Contact the course directly for current green fees and availability
-              </p>
-            </div>
-
-            {/* Location Card */}
-            <div className="bg-white rounded-xl shadow-sm p-6">
-              <h3 className="font-semibold mb-3 text-gray-900">Location</h3>
-              <p className="text-gray-600 text-sm">
-                {course.address}<br />
-                {course.city}, {course.state} {course.zipCode}
-              </p>
+              <a
+                href={course.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full text-masters-green hover:text-masters-green-dark text-center font-medium"
+              >
+                Visit Course Website
+              </a>
             </div>
           </div>
         </div>
@@ -348,7 +310,6 @@ function ReviewForm({
     e.preventDefault();
     setError('');
 
-    // Validation
     if (!reviewerName.trim()) {
       setError('Please enter your name');
       return;

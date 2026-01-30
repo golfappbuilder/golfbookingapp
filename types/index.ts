@@ -14,26 +14,15 @@ export interface Course {
   id: string;
   name: string;
   description: string;
-  address: string;
   city: string;
   state: string;
-  zipCode: string;
-  phone: string;
-  email: string;
+  region: string;
+  type: 'Public' | 'Private' | 'Resort';
   holes: number;
-  par: number;
-  yardage: number;
-  greenFee: number;
-  cartFee: number;
-  openTime: string;
-  closeTime: string;
-  teeTimeInterval: number;
-  maxPlayersPerGroup: number;
-  amenities: string;
-  imageUrl?: string | null;
-  rating: number;
-  createdAt: Date;
-  updatedAt: Date;
+  website: string;
+  bookingUrl: string;
+  imageUrl: string;
+  verified: boolean;
 }
 
 export interface Booking {
